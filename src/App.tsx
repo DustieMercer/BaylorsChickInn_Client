@@ -1,24 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Route, Switch } from "react-router-dom";
+import Auth from './components/auth/Auth';
+import Header from './components/public/Header';
+import Footer from './components/public/Footer';
+import NavBar from './components/public/NavBar';
+import ChickDisplay from './components/public/ChickDisplay';
+import Home from './components/public/Home';
+import ChickGear from './components/public/ChickGear';
 
-function App() {
+const App: React.FunctionComponent = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="vericaltCenter">
+      <Auth />
+      <Header />
+      <Footer />
+      <NavBar />
+      <Switch>
+      <Route exact path="/" component={Home} />
+      <Route exact path="/meetthechicks" component={ChickDisplay} />
+      <Route exact path="/chickgear" component={ChickGear} />
+      </Switch>
+      </div>
     </div>
   );
 }
