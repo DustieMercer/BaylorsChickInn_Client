@@ -1,20 +1,20 @@
-import React, { Component } from 'react'
-import Create from './Create';
-import Login from "./Login";
+import { Component } from "react";
+import Create from "./Create";
+import Login from './Login';
+
+
 
 
 class Auth extends Component {
 
 
   render() {
-    return(
-     <div>
-
-      <Create />
-      <Login />
-      </div>
-      )
+    return (
+      <main>
+        <Create />
+        <Login />
+      </main>
+    );
   }
 }
-
-export default Auth
+export default Auth;

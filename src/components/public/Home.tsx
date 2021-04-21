@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import * as React from 'react';
+import { Component } from 'react';
 
 
 class Home extends Component {
   
 render() {
     return (
-      <div>
-        <p>Welcome to the Chick Inn</p>
-     
-      </div>
+      <main>
+        <p> Welcome to the Chick Inn</p>
+      </main>
     )
   }
 }
