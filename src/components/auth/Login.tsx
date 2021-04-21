@@ -23,15 +23,17 @@ class Login extends React.Component<LoginProps, LoginState> {
 
   handleSubmit = (event: any) => {
     event.preventDefault();
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-  let requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-  };
-
-
-    fetch(`${APIURL}/user/login`, requestOptions)
+    fetch(`${APIURL}/user/login`, {
+      method: "POST",
+      body: JSON.stringify({
+          user: {
+              email: this.state.email, 
+              password: this.state.password
+          }}),
+      headers: new Headers({
+        "Content-Type": "application/json",
+      })
+    })
       .then((response) => response.json())
       .then((json: any) => {
         console.log(json);
