@@ -7,24 +7,20 @@ import Inventory from "../admin/Inventory";
 import OrderDisplay from "../customer/OrderDisplay";
 import OrderAdmin from "../admin/OrderAdmin";
 import Auth from "../auth/Auth";
-import Home from "./Home";
+import Home from './Home';
 import Recipes from "./Recipes";
 
 export interface NavBarProps {
   updateToken: Function;
 }
 
-export interface NavBarState {
-  
-}
+export interface NavBarState {}
 
 class NavBar extends Component<NavBarProps, any> {
-  constructor(props:any) {
-    super(props); 
-    this.state = {
-      };
-    }
-
+  constructor(props: any) {
+    super(props);
+    this.state = {};
+  }
 
   render() {
     return (
@@ -65,17 +61,18 @@ class NavBar extends Component<NavBarProps, any> {
             </NavItem>
           </Nav>
           <Button>Logout</Button>
-
         </Navbar>
 
         <Switch>
-          <Route exact path="/">{Home}</Route>
-          <Route exact path="/meetthechicks">{ChickDisplay}</Route>
-          <Route exact path="/recipes" >{Recipes}</Route>
-          <Route exact path="/inventory">{Inventory}</Route>
-          <Route exact path="/order">{OrderDisplay}</Route>
-          <Route exact path="/orderadmin" >{OrderAdmin}</Route>
-          <Route exact path="/account"><Auth updateToken={this.props.updateToken} /></Route>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/meetthechicks" component={ChickDisplay} />
+          <Route exact path="/recipes" component={Recipes} />
+          <Route exact path="/inventory" component={Inventory} />
+          <Route exact path="/order" component={OrderDisplay} />
+          <Route exact path="/orderadmin" component={OrderAdmin} />
+          <Route exact path="/account">
+            <Auth updateToken={this.props.updateToken} />
+          </Route>
         </Switch>
       </div>
     );
