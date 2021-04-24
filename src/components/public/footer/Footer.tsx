@@ -1,5 +1,4 @@
 import { Component } from "react";
-import { Col, Row } from "reactstrap";
 import {
   FaFacebookSquare,
   FaTwitterSquare,

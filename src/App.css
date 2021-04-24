@@ -1,5 +1,5 @@
 .App {
-  background-color: #a1aaa4;
+  background-color: white;
   height: 100vw;
 }
 /* HEADER & NAVBAR*/
@@ -18,17 +18,17 @@ header {
 }
 .navbar {
   display: inline;
-  background-color: #dd9a9a;
+  background-color: white;
 }
 
 /* FOOTER*/
 footer {
   display: inline-flex;
   width: 100vw;
-  background-color:#dd9a9a; 
-  color: white;
+  background-color: white; 
+  color: black;
   margin-top: 10px;
-  position: fixed;
+  position:relative;
   bottom: 0;
 }
 

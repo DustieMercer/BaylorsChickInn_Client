@@ -1,18 +1,19 @@
 import { Component } from "react";
 import React from "react";
-import { Form, Input, Button, Container, Row, Col } from "reactstrap";
 import APIURL from "../../helpers/environment";
 
+import { Card, CardImg, Form, Input, Button, Row, Col } from "reactstrap";
+import chick from "../assets/chickenCardImg.jpg";
+
+import IUser from '../interfaces/IUser';
+import IAuth from '../interfaces/IAuth';
+
+
 export interface LoginProps {
-  //updateToken here...
+  updateToken: Function;
 }
 
-export interface LoginState {
-  email: string;
-  password: string;
-}
-
-class Login extends React.Component<LoginProps, LoginState> {
+class Login extends React.Component<LoginProps, IUser> {
   constructor(props: LoginProps) {
     super(props);
     this.state = {
@@ -35,18 +36,22 @@ class Login extends React.Component<LoginProps, LoginState> {
       })
     })
       .then((response) => response.json())
-      .then((json: any) => {
-        console.log(json);
+      .then((json:IAuth ) => {
+        let token = json.sessionToken
+        let role = json.user.role
+        let user = json.user.id
+        this.props.updateToken(token)
       });
   };
 
   render() {
     return (
       <main>
-        <Container>
+        <Card>
+          <CardImg src={chick}></CardImg>
           <Form>
             <Row>
-              <Col xs="6" sm="4">
+              <Col>
                 <Input
                   placeholder="Email"
                   type="email"
@@ -58,7 +63,7 @@ class Login extends React.Component<LoginProps, LoginState> {
             </Row>
 
             <Row>
-              <Col xs="6" sm="4">
+              <Col>
                 <Input
                   placeholder="Password"
                   type="password"
@@ -73,7 +78,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               Login
             </Button>
             </Form>
-        </Container>
+        </Card>
       </main>
     );
   }
