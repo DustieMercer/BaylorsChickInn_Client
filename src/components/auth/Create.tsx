@@ -1,24 +1,23 @@
 import { Component } from "react";
+import APIURL from "../../helpers/environment";
 import {
+  Card, 
   Form,
   Input,
   Button,
-  Container,
   Row,
   Col,
+  CardImg,
 } from "reactstrap";
-import APIURL from "../../helpers/environment";
+import chick from "../assets/chickenCardImg.jpg";
+import IUser from '../interfaces/IUser'
+import IAuth from '../interfaces/IAuth';
 
 export interface CreateProps {
-  //updateToken here...
+  updateToken: Function;
 }
 
-export interface CreateState {
-  email: string;
-  password: string;
-}
-
-class Create extends Component<CreateProps, CreateState> {
+class Create extends Component<CreateProps, IUser> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -41,28 +40,24 @@ handleClick = (event: any) => {
         })
       }).then(
           (response) => response.json()
-          ).then((json:any) => {
-              console.log(json)
+          )
+          .then((json:IAuth ) => {
+            let token = json.sessionToken
+            console.log(json.sessionToken)
+            this.props.updateToken(token)
 })
 }
-
-
-  // emailChangeHandler = (event: any) => {
-  //   let email = this.state.email;
-  //   this.setState({ email: event.target.value });
-  // };
-  // passChangeHandler = (event: any) => {
-  //   let password = this.state.password;
-  //   this.setState({ password: event.target.value });
-  // };
 
   render() {
     return (
       <main>
-        <Container>
+        <Card>
+          <CardImg src={chick}>
+
+          </CardImg>
           <Form>
             <Row>
-              <Col xs="6" sm="4">
+              <Col >
                 <Input
                   placeholder="Email"
                   type="email"
@@ -75,7 +70,7 @@ handleClick = (event: any) => {
             </Row>
 
             <Row>
-              <Col xs="6" sm="4">
+              <Col>
                 <Input
                   placeholder="Password"
                   type="password"
@@ -91,7 +86,7 @@ handleClick = (event: any) => {
             type="submit"
             onClick={(event) => this.handleClick(event)}>Create Account</Button>
           </Form>
-        </Container>
+        </Card>
       </main>
     );
   }
