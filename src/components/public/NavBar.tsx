@@ -22,6 +22,11 @@ class NavBar extends Component<NavBarProps, any> {
     this.state = {};
   }
 
+  clearToken = () => {
+    localStorage.clear(); 
+    this.setState({sessionToken: ""})  
+}
+
   render() {
     return (
       <div>
@@ -60,7 +65,7 @@ class NavBar extends Component<NavBarProps, any> {
               </Link>
             </NavItem>
           </Nav>
-          <Button>Logout</Button>
+          <Button onClick={this.clearToken}>Logout</Button>
         </Navbar>
 
         <Switch>
