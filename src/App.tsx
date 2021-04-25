@@ -12,15 +12,20 @@ class App extends Component<any,any> {
   constructor(props:any) {
     super(props); 
     this.state = {
-      sessionToken: ''};
+      sessionToken: '',
+      role:''
+    };
+      
 }
   updateToken = (newToken: string) => {
-    if(localStorage.getItem('token')) {
+    if(localStorage.getItem('token',)) {
       this.setState({sessionToken: newToken})  
   }
   localStorage.setItem('token', newToken)
   this.setState({sessionToken: newToken})
 }
+
+
 
 render(){
   return (

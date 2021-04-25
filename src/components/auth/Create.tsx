@@ -1,17 +1,9 @@
 import { Component } from "react";
 import APIURL from "../../helpers/environment";
-import {
-  Card, 
-  Form,
-  Input,
-  Button,
-  Row,
-  Col,
-  CardImg,
-} from "reactstrap";
+import { Card, Form, Input, Button, Row, Col, CardImg } from "reactstrap";
 import chick from "../assets/chickenCardImg.jpg";
-import IUser from '../interfaces/IUser'
-import IAuth from '../interfaces/IAuth';
+import IUser from "../interfaces/IUser";
+import IAuth from "../interfaces/IAuth";
 
 export interface CreateProps {
   updateToken: Function;
@@ -26,65 +18,68 @@ class Create extends Component<CreateProps, IUser> {
     };
   }
 
-handleClick = (event: any) => {
-  event.preventDefault();
+  handleClick = (event: any) => {
+    event.preventDefault();
     fetch(`${APIURL}/user/create`, {
-        method: "POST",
-        body: JSON.stringify({
-            user: {
-                email: this.state.email, 
-                password: this.state.password
-            }}),
-        headers: new Headers({
-          "Content-Type": "application/json",
-        })
-      }).then(
-          (response) => response.json()
-          )
-          .then((json:IAuth ) => {
-            let token = json.sessionToken
-            console.log(json.sessionToken)
-            this.props.updateToken(token)
-})
-}
+      method: "POST",
+      body: JSON.stringify({
+        user: {
+          email: this.state.email,
+          password: this.state.password,
+        },
+      }),
+      headers: new Headers({
+        "Content-Type": "application/json",
+      }),
+    })
+      .then((response) => response.json())
+      .then((json: IAuth) => {
+        let token = json.sessionToken;
+        console.log(json.sessionToken);
+        this.props.updateToken(token);
+      });
+  };
 
   render() {
     return (
       <main>
         <Card>
-          <CardImg src={chick}>
-
-          </CardImg>
+          <CardImg src={chick}></CardImg>
+          <br />
           <Form>
             <Row>
-              <Col >
+              <Col>
                 <Input
                   placeholder="Email"
                   type="email"
                   value={this.state.email}
-                  onChange={(event)=> this.setState({email: event.target.value})}
-                  autoComplete='email'
+                  onChange={(event) =>
+                    this.setState({ email: event.target.value })
+                  }
+                  autoComplete="email"
                   required
                 />
               </Col>
             </Row>
-
+            <br />
             <Row>
               <Col>
                 <Input
                   placeholder="Password"
                   type="password"
                   value={this.state.password}
-                  onChange={(event) => this.setState({password: event.target.value})}
-                  autoComplete='password'
+                  onChange={(event) =>
+                    this.setState({ password: event.target.value })
+                  }
+                  autoComplete="password"
                   required
                 />
               </Col>
             </Row>
-
-            <Button 
-            type="submit"
-            onClick={(event) => this.handleClick(event)}>Create Account</Button>
+            <br />
+            <Button type="submit" onClick={(event) => this.handleClick(event)}>
+              Create Account
+            </Button>
           </Form>
         </Card>
       </main>

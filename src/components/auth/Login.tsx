@@ -5,9 +5,8 @@ import APIURL from "../../helpers/environment";
 import { Card, CardImg, Form, Input, Button, Row, Col } from "reactstrap";
 import chick from "../assets/chickenCardImg.jpg";
 
-import IUser from '../interfaces/IUser';
-import IAuth from '../interfaces/IAuth';
-
+import IUser from "../interfaces/IUser";
+import IAuth from "../interfaces/IAuth";
 
 export interface LoginProps {
   updateToken: Function;
@@ -27,20 +26,20 @@ class Login extends React.Component<LoginProps, IUser> {
     fetch(`${APIURL}/user/login`, {
       method: "POST",
       body: JSON.stringify({
-          user: {
-              email: this.state.email, 
-              password: this.state.password
-          }}),
+        user: {
+          email: this.state.email,
+          password: this.state.password,
+        },
+      }),
       headers: new Headers({
         "Content-Type": "application/json",
-      })
+      }),
     })
       .then((response) => response.json())
-      .then((json:IAuth ) => {
-        let token = json.sessionToken
-        let role = json.user.role
-        let user = json.user.id
-        this.props.updateToken(token)
+      .then((json: IAuth) => {
+        let role = json.user.role;
+        let token = json.sessionToken;
+        this.props.updateToken(token);
       });
   };
 
@@ -49,35 +48,41 @@ class Login extends React.Component<LoginProps, IUser> {
       <main>
         <Card>
           <CardImg src={chick}></CardImg>
+          <br />
           <Form>
             <Row>
               <Col>
                 <Input
                   placeholder="Email"
                   type="email"
-                  onChange={(event) => this.setState({ email: event.target.value })}
+                  onChange={(event) =>
+                    this.setState({ email: event.target.value })
+                  }
                   value={this.state.email}
                   autoComplete="email"
                 />
               </Col>
             </Row>
-
+            <br />
             <Row>
               <Col>
                 <Input
                   placeholder="Password"
                   type="password"
                   autoComplete="password"
-                  onChange={(event) => this.setState({ password: event.target.value })}
+                  onChange={(event) =>
+                    this.setState({ password: event.target.value })
+                  }
                   value={this.state.password}
                 />
               </Col>
             </Row>
+            <br />
 
-            <Button type="submit" onClick={(e)=>this.handleSubmit(e)}>
+            <Button type="submit" onClick={(e) => this.handleSubmit(e)}>
               Login
             </Button>
-            </Form>
+          </Form>
         </Card>
       </main>
     );

@@ -14,18 +14,21 @@ export interface NavBarProps {
   updateToken: Function;
 }
 
-export interface NavBarState {}
+export interface NavBarState {
+}
 
 class NavBar extends Component<NavBarProps, any> {
   constructor(props: any) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
   }
 
   clearToken = () => {
     localStorage.clear(); 
     this.setState({sessionToken: ""})  
 }
+
 
   render() {
     return (
@@ -47,11 +50,7 @@ class NavBar extends Component<NavBarProps, any> {
               </Link>
             </NavItem>
 
-            <NavItem>
-              <Link to="/account">
-                <NavLink>My Account</NavLink>
-              </Link>
-            </NavItem>
+   
 
             <NavItem>
               <Link to="/order">
@@ -64,9 +63,18 @@ class NavBar extends Component<NavBarProps, any> {
                 <NavLink>Order Admin</NavLink>
               </Link>
             </NavItem>
+            <NavItem>
+              <Link to="/account">
+                <NavLink>Login</NavLink>
+              </Link>
+            </NavItem>
           </Nav>
-          <Button onClick={this.clearToken}>Logout</Button>
+
+          <Button onClick={this.clearToken}>Logout</Button>          
+        
         </Navbar>
+
+        
 
         <Switch>
           <Route exact path="/" component={Home} />
