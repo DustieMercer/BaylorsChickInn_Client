@@ -15,6 +15,7 @@ export interface NavBarProps {
 }
 
 export interface NavBarState {
+  loginToggle: boolean,
 }
 
 class NavBar extends Component<NavBarProps, any> {
@@ -22,7 +23,7 @@ class NavBar extends Component<NavBarProps, any> {
     super(props);
     this.state = {
     };
-  }
+  } 
 
   clearToken = () => {
     localStorage.clear(); 
@@ -70,7 +71,8 @@ class NavBar extends Component<NavBarProps, any> {
             </NavItem>
           </Nav>
 
-          <Button onClick={this.clearToken}>Logout</Button>          
+          <Button onClick=
+          {this.clearToken}>Logout</Button>          
         
         </Navbar>
 

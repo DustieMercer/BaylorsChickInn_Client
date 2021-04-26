@@ -37,6 +37,20 @@ footer  p {
   text-align: left;
 }
 
-/*MAIN DISPLAY*/
+/*HOME DISPLAY*/
 
+.jumbotron {
+  background-image: url("../src/components/assets/chickInnHeader.jpg");
+  width: 100vw;
+  height: 100mm;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 80%;
+}
 
+.home-headshot {
+  border-image: round;
+  width: 200px;
+  object-fit: contain;
+  margin-right: 1em;
+}
