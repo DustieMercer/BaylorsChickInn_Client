@@ -37,7 +37,7 @@ render(){
   return (
     <div className="App">
       <Router>
-        <NavBar updateToken={this.updateToken} updateRole={this.updateRole} />
+        <NavBar updateToken={this.updateToken} updateRole={this.updateRole}/>
       </Router>
 
       <Footer />

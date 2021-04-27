@@ -5,9 +5,10 @@ import chick from "../assets/chickenCardImg.jpg";
 import IUser from "../interfaces/IUser";
 import IAuth from "../interfaces/IAuth";
 
+
 export interface CreateProps {
   updateToken: Function;
-  updateRole: Function;
+  updateRole:Function;
 }
 
 class Create extends Component<CreateProps, IUser> {

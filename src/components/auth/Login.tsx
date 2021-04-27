@@ -10,7 +10,7 @@ import IAuth from "../interfaces/IAuth";
 
 export interface LoginProps {
   updateToken: Function;
-  updateRole: Function;
+  updateRole:Function;
 }
 
 class Login extends React.Component<LoginProps, IUser> {
@@ -40,6 +40,7 @@ class Login extends React.Component<LoginProps, IUser> {
       .then((json: IAuth) => {
         let role = json.user.role;
         let token = json.sessionToken;
+        if (role === 'admin')
         this.props.updateToken(token);
         this.props.updateRole(role);
       });

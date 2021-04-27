@@ -10,9 +10,11 @@ import Auth from "../auth/Auth";
 import Home from './Home';
 import Recipes from "./Recipes";
 
+
 export interface NavBarProps {
   updateToken: Function;
   updateRole:Function;
+
 }
 
 export interface NavBarState {
@@ -88,7 +90,7 @@ class NavBar extends Component<NavBarProps, any> {
           <Route exact path="/order" component={OrderDisplay} />
           <Route exact path="/orderadmin" component={OrderAdmin} />
           <Route exact path="/account">
-            <Auth updateToken={this.props.updateToken} updateRole={this.props.updateRole} />
+            <Auth updateToken={this.props.updateToken} updateRole={this.props.updateRole}/>
           </Route>
         </Switch>
       </div>
