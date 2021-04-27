@@ -24,14 +24,20 @@ class App extends Component<any,any> {
   localStorage.setItem('token', newToken)
   this.setState({sessionToken: newToken})
 }
-
+updateRole = (newRole: string) => {
+  if(localStorage.getItem('role',)) {
+    this.setState({role: newRole})  
+}
+localStorage.setItem('role', newRole)
+this.setState({role: newRole})
+}
 
 
 render(){
   return (
     <div className="App">
       <Router>
-        <NavBar updateToken={this.updateToken} />
+        <NavBar updateToken={this.updateToken} updateRole={this.updateRole} />
       </Router>
 
       <Footer />

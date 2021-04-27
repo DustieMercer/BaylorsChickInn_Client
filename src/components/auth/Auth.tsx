@@ -12,6 +12,7 @@ import Login from "./Login";
 
 export interface AuthProps {
   updateToken: Function;
+  updateRole:Function;
 }
 
 export interface AuthState {
@@ -55,9 +56,9 @@ class Auth extends Component<AuthProps, AuthState> {
         <ModalBody>
 
         {this.state.login === true ? (
-              <Login updateToken={this.props.updateToken} />
+              <Login updateToken={this.props.updateToken} updateRole={this.props.updateRole}/>
             ) : (
-              <Create updateToken={this.props.updateToken} />
+              <Create updateToken={this.props.updateToken} updateRole={this.props.updateRole} />
             )}    
         
         

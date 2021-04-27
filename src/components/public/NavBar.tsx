@@ -12,6 +12,7 @@ import Recipes from "./Recipes";
 
 export interface NavBarProps {
   updateToken: Function;
+  updateRole:Function;
 }
 
 export interface NavBarState {
@@ -27,7 +28,8 @@ class NavBar extends Component<NavBarProps, any> {
 
   clearToken = () => {
     localStorage.clear(); 
-    this.setState({sessionToken: ""})  
+    this.setState({sessionToken: ""});
+    this.setState({role:''});
 }
 
 
@@ -86,7 +88,7 @@ class NavBar extends Component<NavBarProps, any> {
           <Route exact path="/order" component={OrderDisplay} />
           <Route exact path="/orderadmin" component={OrderAdmin} />
           <Route exact path="/account">
-            <Auth updateToken={this.props.updateToken} />
+            <Auth updateToken={this.props.updateToken} updateRole={this.props.updateRole} />
           </Route>
         </Switch>
       </div>

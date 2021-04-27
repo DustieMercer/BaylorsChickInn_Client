@@ -1,15 +1,16 @@
 import { Component } from "react";
 import React from "react";
 import APIURL from "../../helpers/environment";
-
+//STYLING
 import { Card, CardImg, Form, Input, Button, Row, Col } from "reactstrap";
 import chick from "../assets/chickenCardImg.jpg";
-
+//INTERFACES
 import IUser from "../interfaces/IUser";
 import IAuth from "../interfaces/IAuth";
 
 export interface LoginProps {
   updateToken: Function;
+  updateRole: Function;
 }
 
 class Login extends React.Component<LoginProps, IUser> {
@@ -40,6 +41,7 @@ class Login extends React.Component<LoginProps, IUser> {
         let role = json.user.role;
         let token = json.sessionToken;
         this.props.updateToken(token);
+        this.props.updateRole(role);
       });
   };
 
