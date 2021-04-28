@@ -36,36 +36,18 @@ class NavBar extends Component<NavBarProps, NavBarState> {
     };
   }
 
-  checkUserPrivilege = () => {
-    this.loginToggle();
-    this.protectedAdminRoutes();
-    this.protectedCustomerRoutes();
-  };
-
-  loginToggle = () => {
-    this.state.adminRoutes || this.state.defaultRoutes === true
-      ? this.setState({ showLogin: true })
-      : this.setState({ showLogin: false });
-  };
-
   clearToken = () => {
     localStorage.clear();
-    this.setState({ sessionToken: "" });
-    this.setState({ role: "" });
-    this.checkUserPrivilege();
   };
 
-  protectedAdminRoutes = () => {
-    this.state.role === "admin"
-      ? this.setState({ adminRoutes: true })
-      : this.setState({ adminRoutes: false });
-  };
+  checkUserPriviledges = () => {
+    // if (localStorage.getItem('sessionToken')      
 
-  protectedCustomerRoutes = () => {
-    this.state.role === "default"
-      ? this.setState({ defaultRoutes: true })
-      : this.setState({ defaultRoutes: false });
-  };
+    if(localStorage.getItem('role')=== 'admin')
+    this.setState({ adminRoutes: !this.state.adminRoutes})
+    if(localStorage.getItem('role') === 'default')
+    this.setState({ defaultRoutes: !this.state.defaultRoutes })
+  }
 
   render() {
     return (
@@ -88,19 +70,23 @@ class NavBar extends Component<NavBarProps, NavBarState> {
             </NavItem>
 
             {/******** CUSTOMER ROUTES ***********/}
-            <NavItem>
+            
+            {localStorage.getItem('sessionToken')? 
+            (<NavItem>
               <Link to="/profile">
                 <NavLink>My Profile</NavLink>
               </Link>
-            </NavItem>
+            </NavItem>) : ('')}
 
             {/******** ADMIN ROUTES ***********/}
 
-            <NavItem>
+            {localStorage.getItem('role') === 'admin' ?
+              (<NavItem>
               <Link to="/chickadmin">
                 <NavLink>Chick Admin</NavLink>
               </Link>
-            </NavItem>
+            </NavItem>) : ('')}
+
           </Nav>
           <Link to="/account">
             <Button>Login</Button>
