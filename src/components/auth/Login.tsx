@@ -10,9 +10,7 @@ import IAuth from "../interfaces/IAuth";
 
 export interface LoginProps {
   updateToken: Function;
-  updateRole:Function;
-  toggle:Function;
-  checkUserPriviledge: Function;
+  updateRole: Function;
 }
 
 class Login extends React.Component<LoginProps, IUser> {
@@ -44,8 +42,6 @@ class Login extends React.Component<LoginProps, IUser> {
         let sessionToken = json.sessionToken;
         this.props.updateToken(sessionToken);
         this.props.updateRole(role);
-        this.props.toggle();
-        this.props.checkUserPriviledge();
       });
   };
 

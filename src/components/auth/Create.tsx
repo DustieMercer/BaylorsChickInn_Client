@@ -5,12 +5,9 @@ import chick from "../assets/chickenCardImg.jpg";
 import IUser from "../interfaces/IUser";
 import IAuth from "../interfaces/IAuth";
 
-
 export interface CreateProps {
   updateToken: Function;
-  updateRole:Function;
-  toggle:Function;
-  checkUserPriviledge: Function;
+  updateRole: Function;
 }
 
 class Create extends Component<CreateProps, IUser> {
@@ -43,8 +40,6 @@ class Create extends Component<CreateProps, IUser> {
         console.log(sessionToken, role);
         this.props.updateToken(sessionToken);
         this.props.updateRole(role);
-        this.props.toggle();
-        this.props.checkUserPriviledge();
       });
   };
 
