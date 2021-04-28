@@ -38,16 +38,9 @@ class NavBar extends Component<NavBarProps, NavBarState> {
 
   clearToken = () => {
     localStorage.clear();
+    this.setState({ adminRoutes: !this.state.adminRoutes });
+    this.setState({ defaultRoutes: !this.state.defaultRoutes });
   };
-
-  checkUserPriviledges = () => {
-    // if (localStorage.getItem('sessionToken')      
-
-    if(localStorage.getItem('role')=== 'admin')
-    this.setState({ adminRoutes: !this.state.adminRoutes})
-    if(localStorage.getItem('role') === 'default')
-    this.setState({ defaultRoutes: !this.state.defaultRoutes })
-  }
 
   render() {
     return (
@@ -70,27 +63,36 @@ class NavBar extends Component<NavBarProps, NavBarState> {
             </NavItem>
 
             {/******** CUSTOMER ROUTES ***********/}
-            
-            {localStorage.getItem('sessionToken')? 
-            (<NavItem>
-              <Link to="/profile">
-                <NavLink>My Profile</NavLink>
-              </Link>
-            </NavItem>) : ('')}
+
+            {localStorage.getItem("sessionToken") ? (
+              <NavItem>
+                <Link to="/profile">
+                  <NavLink>My Profile</NavLink>
+                </Link>
+              </NavItem>
+            ) : (
+              ""
+            )}
 
             {/******** ADMIN ROUTES ***********/}
 
-            {localStorage.getItem('role') === 'admin' ?
-              (<NavItem>
-              <Link to="/chickadmin">
-                <NavLink>Chick Admin</NavLink>
-              </Link>
-            </NavItem>) : ('')}
-
+            {localStorage.getItem("role") === "admin" ? (
+              <NavItem>
+                <Link to="/chickadmin">
+                  <NavLink>Chick Admin</NavLink>
+                </Link>
+              </NavItem>
+            ) : (
+              ""
+            )}
           </Nav>
-          <Link to="/account">
-            <Button>Login</Button>
-          </Link>
+          {localStorage.getItem("sessionToken") ? (
+            <Button onClick={this.clearToken}>Logout</Button>
+          ) : (
+            <Link to="/account">
+              <Button>Login</Button>
+            </Link>
+          )}
         </Navbar>
 
         <Switch>

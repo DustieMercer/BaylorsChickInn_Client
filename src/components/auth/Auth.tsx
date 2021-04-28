@@ -77,11 +77,13 @@ class Auth extends Component<AuthProps, AuthState> {
               <Login
                 updateToken={this.props.updateToken}
                 updateRole={this.props.updateRole}
+                toggle={this.toggle}
               />
             ) : (
               <Create
                 updateToken={this.props.updateToken}
                 updateRole={this.props.updateRole}
+                toggle={this.toggle}
               />
             )}
           </ModalBody>

@@ -8,6 +8,7 @@ import IAuth from "../interfaces/IAuth";
 export interface CreateProps {
   updateToken: Function;
   updateRole: Function;
+  toggle: Function;
 }
 
 class Create extends Component<CreateProps, IUser> {
@@ -40,6 +41,7 @@ class Create extends Component<CreateProps, IUser> {
         console.log(sessionToken, role);
         this.props.updateToken(sessionToken);
         this.props.updateRole(role);
+        this.props.toggle();
       });
   };
 
