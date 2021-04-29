@@ -1,5 +1,4 @@
 import { Component } from "react";
-import IProfile from "../interfaces/IProfile";
 import APIURL from "../../helpers/environment";
 import { Form, Input, Button, Row, Col } from "reactstrap";
 
@@ -8,10 +7,8 @@ export interface ProfileProps {
 }
 
 export interface ProfileState {
-  sessionToken: string;
   first_name: string;
   last_name: string;
-  email: string;
   address_1: string;
   address_2: string;
   city: string;
@@ -21,13 +18,11 @@ export interface ProfileState {
 }
 
 class Profile extends Component<ProfileProps, ProfileState> {
-  constructor(props: any) {
+  constructor(props: ProfileProps) {
     super(props);
     this.state = {
-      sessionToken: "",
       first_name: "",
       last_name: "",
-      email: "",
       address_1: "",
       address_2: "",
       city: "",
@@ -37,15 +32,17 @@ class Profile extends Component<ProfileProps, ProfileState> {
     };
   }
 
+  
+
   handleSubmit = (event: any) => {
     event.preventDefault();
-    fetch(`${APIURL}/order/create`, {
+    const token = this.props.sessionToken ? this.props.sessionToken : localStorage.getItem('sessionToken') 
+    fetch(`${APIURL}/profile/new`, {
       method: "POST",
       body: JSON.stringify({
         profile: {
           first_name: "",
           last_name: "",
-          email: "",
           address_1: "",
           address_2: "",
           city: "",
@@ -56,10 +53,12 @@ class Profile extends Component<ProfileProps, ProfileState> {
       }),
       headers: new Headers({
         "Content-Type": "application/json",
+        "Authorization": token ? token : '',
+        
       }),
     })
       .then((response) => response.json())
-      .then((json: IProfile) => {
+      .then((json: ProfileProps) => {
         console.log(json);
       });
   };
@@ -68,14 +67,90 @@ class Profile extends Component<ProfileProps, ProfileState> {
     return (
       <main>
         <Form>
-          <Input placeholder="First Name"></Input>
-          <Input placeholder="Last Name"></Input>
-          <Input placeholder="Email"></Input>
-          <Input placeholder="Address"></Input>
-          <Input placeholder="Suite/Apt#"></Input>
-          <Input placeholder="City"></Input>
-          <Input placeholder="State"></Input>
-          <Input placeholder="Zipcode"></Input>
+          <Input
+            placeholder="First Name"
+            type="text"
+            value={this.state.first_name}
+            onChange={(event) =>
+              this.setState({ first_name: event.target.value })
+            }
+            autoComplete="given-name"
+            required
+          ></Input>
+
+          <Input
+            placeholder="Last Name"
+            type="text"
+            value={this.state.last_name}
+            onChange={(event) =>
+              this.setState({ last_name: event.target.value })
+            }
+            autoComplete="family-name"
+            required
+          ></Input>
+
+          <Input
+            placeholder="Phone Number"
+            type="text"
+            value={this.state.phone_number}
+            onChange={(event) =>
+              this.setState({ phone_number: event.target.value })
+            }
+            autoComplete="tel-national"
+            required
+          ></Input>
+
+          <Input
+            placeholder="Address"
+            type="text"
+            value={this.state.address_1}
+            onChange={(event) =>
+              this.setState({ address_1: event.target.value })
+            }
+            autoComplete="address-line1"
+            required
+          ></Input>
+
+          <Input
+            placeholder="Suite/Apt#"
+            type="text"
+            value={this.state.address_2}
+            onChange={(event) =>
+              this.setState({ address_2: event.target.value })
+            }
+            autoComplete="address-line2"
+          ></Input>
+          <Input
+            placeholder="City"
+            type="text"
+            value={this.state.city}
+            onChange={(event) => this.setState({ city: event.target.value })}
+            autoComplete="address-level2"
+            required
+          ></Input>
+
+          <Input
+            placeholder="State"
+            type="text"
+            value={this.state.state}
+            onChange={(event) => this.setState({ state: event.target.value })}
+            autoComplete="address-level1"
+            required
+          ></Input>
+
+          <Input
+            placeholder="Zipcode"
+            type="text"
+            value={this.state.zipcode}
+            onChange={(event) => this.setState({ zipcode: event.target.value })}
+            autoComplete="postal-code"
+            required
+          ></Input>
+
+          <Button onClick={this.handleSubmit}>Create Profile</Button>
+
+
+
         </Form>
       </main>
     );

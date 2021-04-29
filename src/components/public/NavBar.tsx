@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route, Switch, Link, Redirect } from "react-router-dom";
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button } from "reactstrap";
 import logo from "../assets/ChickInn2.png";
 import ChickDisplay from "./chicks/ChickDisplay";
@@ -17,8 +17,7 @@ export interface NavBarProps {
 }
 
 export interface NavBarState {
-  sessionToken: string;
-  role: string;
+
   showLogin: boolean;
   adminRoutes: boolean;
   defaultRoutes: boolean;
@@ -27,9 +26,8 @@ export interface NavBarState {
 class NavBar extends Component<NavBarProps, NavBarState> {
   constructor(props: any) {
     super(props);
-    this.state = {
-      sessionToken: "",
-      role: "",
+    this.state = { 
+
       showLogin: true,
       adminRoutes: false,
       defaultRoutes: false,
@@ -87,7 +85,7 @@ class NavBar extends Component<NavBarProps, NavBarState> {
             )}
           </Nav>
           {localStorage.getItem("sessionToken") ? (
-            <Button onClick={this.clearToken}>Logout</Button>
+            <Button onClick={this.clearToken}>Logout</Button>  
           ) : (
             <Link to="/account">
               <Button>Login</Button>
@@ -101,8 +99,11 @@ class NavBar extends Component<NavBarProps, NavBarState> {
           </Route>
           <Route exact path="/meetthechicks" component={ChickDisplay} />
           <Route exact path="/recipes" component={Recipes} />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/chickadmin" component={ChickAdmin} />
+          <Route exact path="/profile"> <Profile sessionToken={this.props.sessionToken} />
+            </Route> 
+          <Route exact path="/chickadmin"> 
+          <ChickAdmin sessionToken={this.props.sessionToken} />
+            </Route> 
           <Route exact path="/account">
             <Auth
               updateToken={this.props.updateToken}

@@ -9,18 +9,14 @@ export interface AppProps {
 }
 
 export interface AppState {
-  sessionToken:string;
-  role: string;
+
 }
 
 class App extends Component<any, any> {
   constructor(props:any) {
     super(props); 
     this.state = {
-      sessionToken: '',
-      role:'',
-    };
-      
+    };    
 }
   updateToken = (newSessionToken: string) => {
     if(localStorage.getItem('sessionToken',)) {
