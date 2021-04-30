@@ -12,12 +12,13 @@ import Login from "./Login";
 
 export interface AuthProps {
   updateToken: Function;
+  updateRole: Function;
 }
 
 export interface AuthState {
   modal: boolean;
   login: boolean;
-  headerText:string;
+  headerText: string;
   buttonText: string;
   buttonLabel: string;
   className: string;
@@ -29,47 +30,70 @@ class Auth extends Component<AuthProps, AuthState> {
     this.state = {
       modal: true,
       login: true,
-      headerText: 'Checking In?',
+      headerText: "Checking In?",
       buttonText: "Need to Register?",
       buttonLabel: "",
       className: "",
     };
   }
 
-  toggle = () => 
-  this.setState({modal: !this.state.modal});
+  toggle = () => this.setState({ modal: !this.state.modal });
 
   registerToggle = () =>
-  (this.state.login === true) ?
-    this.setState({login: !this.state.login, headerText: 'Welcome To the Chick Inn', buttonText: 'Already a User?'}) :
-    this.setState({login: !this.state.login, headerText: 'Welcome Back', buttonText: 'Need to Register?'}) 
-  
-  closeBtn = <button className="close" onClick={this.toggle}>&times;</button>;
-  
+    this.state.login === true
+      ? this.setState({
+          login: !this.state.login,
+          headerText: "Welcome To the Chick Inn",
+          buttonText: "Already a User?",
+        })
+      : this.setState({
+          login: !this.state.login,
+          headerText: "Welcome Back",
+          buttonText: "Need to Register?",
+        });
+
+  closeBtn = (
+    <button className="close" onClick={this.toggle}>
+      &times;
+    </button>
+  );
+
   render() {
     return (
       <div>
-      <Button color="Primary" onClick={this.toggle}>{this.state.buttonLabel}</Button>
-      <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.state.className}>
-        <ModalHeader toggle={this.toggle} close={this.closeBtn}>{this.state.headerText}</ModalHeader>
-        <ModalBody>
-
-        {this.state.login === true ? (
-              <Login updateToken={this.props.updateToken} />
+        <Button color="Primary" onClick={this.toggle}>
+          {this.state.buttonLabel}
+        </Button>
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggle}
+          className={this.state.className}
+        >
+          <ModalHeader toggle={this.toggle} close={this.closeBtn}>
+            {this.state.headerText}
+          </ModalHeader>
+          <ModalBody>
+            {this.state.login === true ? (
+              <Login
+                updateToken={this.props.updateToken}
+                updateRole={this.props.updateRole}
+                toggle={this.toggle}
+              />
             ) : (
-              <Create updateToken={this.props.updateToken} />
-            )}    
-        
-        
-        </ModalBody>
-        <ModalFooter>
-
-          <Button color="primary" onClick={this.registerToggle}>{this.state.buttonText}</Button>{' '}
-        </ModalFooter>
-      </Modal>
-    </div>
-          
-          
+              <Create
+                updateToken={this.props.updateToken}
+                updateRole={this.props.updateRole}
+                toggle={this.toggle}
+              />
+            )}
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.registerToggle}>
+              {this.state.buttonText}
+            </Button>{" "}
+          </ModalFooter>
+        </Modal>
+      </div>
     );
   }
 }
