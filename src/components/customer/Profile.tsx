@@ -1,9 +1,11 @@
 import { Component } from "react";
 import APIURL from "../../helpers/environment";
-import { Form, Input, Button, Row, Col } from "reactstrap";
+import { Form, Input, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 export interface ProfileProps {
   sessionToken: string;
+  buttonLabel: string;
+  className: string;
 }
 
 export interface ProfileState {
@@ -15,6 +17,7 @@ export interface ProfileState {
   state: string;
   zipcode: string;
   phone_number: string;
+  modal: boolean;
 }
 
 class Profile extends Component<ProfileProps, ProfileState> {
@@ -29,10 +32,13 @@ class Profile extends Component<ProfileProps, ProfileState> {
       state: "",
       zipcode: "",
       phone_number: "",
+      modal: false,
     };
   }
 
-  
+  toggle = () => {
+    this.setState({ modal: !this.state.modal})
+  }
 
   handleSubmit = (event: any) => {
     event.preventDefault();
@@ -58,7 +64,7 @@ class Profile extends Component<ProfileProps, ProfileState> {
       }),
     })
       .then((response) => response.json())
-      .then((json: ProfileProps) => {
+      .then((json: ProfileState) => {
         console.log(json);
       });
   };
@@ -66,6 +72,7 @@ class Profile extends Component<ProfileProps, ProfileState> {
   render() {
     return (
       <main>
+        <Modal>
         <Form>
           <Input
             placeholder="First Name"
@@ -152,6 +159,7 @@ class Profile extends Component<ProfileProps, ProfileState> {
 
 
         </Form>
+        </Modal>
       </main>
     );
   }

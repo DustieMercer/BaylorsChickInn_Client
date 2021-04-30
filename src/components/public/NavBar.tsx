@@ -7,17 +7,17 @@ import ChickAdmin from "../admin/ChickAdmin";
 import Auth from "../auth/Auth";
 import Home from "./Home";
 import Recipes from "./Recipes";
-import Profile from "../customer/Profile";
+import ProfileDisplay from "../customer/ProfileDisplay";
+import ProfileFetch from "../customer/ProfileFetch";
 
 export interface NavBarProps {
   updateToken: Function;
-  updateRole: Function;
+  updateRole: Function; 
   role: string;
   sessionToken: string;
 }
 
 export interface NavBarState {
-
   showLogin: boolean;
   adminRoutes: boolean;
   defaultRoutes: boolean;
@@ -27,7 +27,6 @@ class NavBar extends Component<NavBarProps, NavBarState> {
   constructor(props: any) {
     super(props);
     this.state = { 
-
       showLogin: true,
       adminRoutes: false,
       defaultRoutes: false,
@@ -99,7 +98,7 @@ class NavBar extends Component<NavBarProps, NavBarState> {
           </Route>
           <Route exact path="/meetthechicks" component={ChickDisplay} />
           <Route exact path="/recipes" component={Recipes} />
-          <Route exact path="/profile"> <Profile sessionToken={this.props.sessionToken} />
+          <Route exact path="/profile"> <ProfileFetch sessionToken={this.props.sessionToken} />
             </Route> 
           <Route exact path="/chickadmin"> 
           <ChickAdmin sessionToken={this.props.sessionToken} />
