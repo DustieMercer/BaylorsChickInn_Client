@@ -8,4 +8,5 @@ export default interface IProfile {
     state: string,
     zipcode: string,
     phone_number: string,
+    id: number,
 }

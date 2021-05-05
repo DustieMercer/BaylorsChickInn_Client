@@ -1,39 +1,40 @@
-import { Component } from "react";
+import * as React from "react";
 import {
   Card, Button, CardImg, CardTitle, CardText, CardGroup,
   CardSubtitle, CardBody
 } from 'reactstrap';
 import Chick from "./Chick";
+import IChick from '../../interfaces/IChick';
+import chickenIcon_blue from '../../assets/chickenIcon_blue.png';
 
-class ChickDisplay extends Component {
+export interface ChickDisplayProps {
+  sessionToken: string;
+  chick: IChick;
+}
+
+export interface ChickDisplayState {
+}
+
+class ChickDisplay extends React.Component<ChickDisplayProps, any> {
+  constructor(props: any) {
+      super(props);
+      this.state = { 
+        };
+  }  
   render() {
+    console.log(this.props.chick)
     return (
       <main>
         <CardGroup>
       <Card>
-        <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
+        <CardImg top width="100%" src={chickenIcon_blue} alt="Card image cap" />
         <CardBody>
-          <CardTitle tag="h5"><Chick /></CardTitle>
-          <CardSubtitle tag="h6" className="mb-2 text-muted">Card subtitle</CardSubtitle>
-          <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CardText>
-          <Button>Button</Button>
-        </CardBody>
-      </Card>
-      <Card>
-        <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
-        <CardBody>
-          <CardTitle tag="h5">Card title</CardTitle>
-          <CardSubtitle tag="h6" className="mb-2 text-muted">Card subtitle</CardSubtitle>
-          <CardText>This card has supporting text below as a natural lead-in to additional content.</CardText>
-          <Button>Button</Button>
-        </CardBody>
-      </Card>
-      <Card>
-        <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
-        <CardBody>
-          <CardTitle tag="h5">Card title</CardTitle>
-          <CardSubtitle tag="h6" className="mb-2 text-muted">Card subtitle</CardSubtitle>
-          <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</CardText>
+          <CardTitle tag="h5">{this.props.chick.chick_name}</CardTitle>
+          <CardSubtitle tag="h6" className="mb-2 text-muted">{this.props.chick.chick_type}</CardSubtitle>
+          <CardText>
+            <p>Annual Egg Production:{this.props.chick.chick_production}</p>
+            <p>Fun Fact:{this.props.chick.chick_persona}</p>
+          </CardText>
           <Button>Button</Button>
         </CardBody>
       </Card>

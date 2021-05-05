@@ -1,7 +1,7 @@
 import { Component } from "react";
 import APIURL from "../../helpers/environment";
 import * as React from "react";
-import ProfileDisplay from "./ProfileDisplay";
+import ProfileDisplay from './ProfileDisplay';
 import { Button, Table } from "reactstrap";
 import IProfile from '../interfaces/IProfile';
 
@@ -21,15 +21,16 @@ class ProfileFetch extends React.Component<
     super(props);
     this.state = {
       profile: {
-        first_name: "string",
-        last_name: "string",
-        email: "string",
-        address_1: "string",
-        address_2: "string",
-        city: "string",
-        state: "string",
-        zipcode: "string",
-        phone_number: "string",
+        first_name: "",
+        last_name: "",
+        email: "",
+        address_1: "",
+        address_2: "",
+        city: "",
+        state: "",
+        zipcode: "",
+        phone_number: "",
+        id: NaN,
       }
     };
   }
@@ -38,7 +39,6 @@ componentDidMount = () => {
 }
 
   fetchProfile = () => {
-    
     const token = this.props.sessionToken
       ? this.props.sessionToken
       : localStorage.getItem("sessionToken");
@@ -51,9 +51,12 @@ componentDidMount = () => {
     })
       .then((response) => response.json())
       .then((json: IProfile) => {
-        this.setState({profile: json})
-
+        if (json !== null) {
+          this.setState({profile: json})
+        }
+        
       });
+      
   };
   render() {
     return (
@@ -63,6 +66,8 @@ componentDidMount = () => {
           profile={this.state.profile}
           sessionToken={this.props.sessionToken}
         />
+
+
       </div>
     );
   }

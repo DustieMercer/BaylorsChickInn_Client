@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Route, Switch, Link, Redirect } from "react-router-dom";
+import { Route, Switch, Link, Redirect, useHistory } from "react-router-dom";
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button } from "reactstrap";
 import logo from "../assets/ChickInn2.png";
 import ChickDisplay from "./chicks/ChickDisplay";
@@ -33,7 +33,7 @@ class NavBar extends Component<NavBarProps, NavBarState> {
     };
   }
 
-  clearToken = () => {
+   clearToken = () => {
     localStorage.clear();
     this.setState({ adminRoutes: !this.state.adminRoutes });
     this.setState({ defaultRoutes: !this.state.defaultRoutes });
