@@ -3,5 +3,6 @@ export default interface IChick {
     chick_type: string,
     chick_production: string,
     chick_persona: string,
-    userId: number,
+    photo: string,
+    id: number,
 }
