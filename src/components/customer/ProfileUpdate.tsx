@@ -1,5 +1,7 @@
 import { Component } from "react";
 import APIURL from "../../helpers/environment";
+import * as React from "react";
+import ProfileDisplay from "./ProfileDisplay";
 import {
   Form,
   Input,
@@ -11,14 +13,16 @@ import {
 } from "reactstrap";
 import IProfile from "../interfaces/IProfile";
 
-export interface ProfileProps {
+export interface ProfileUpdateFetchProps {
   sessionToken: string;
   toggle: Function;
+  profile: IProfile;
 }
 
-export interface ProfileState {
+export interface ProfileUpdateFetchState {
   first_name: string;
   last_name: string;
+  email: string;
   address_1: string;
   address_2: string;
   city: string;
@@ -27,28 +31,32 @@ export interface ProfileState {
   phone_number: string;
 }
 
-class Profile extends Component<ProfileProps, ProfileState> {
-  constructor(props: ProfileProps) {
+class ProfileUpdate extends React.Component<
+  ProfileUpdateFetchProps,
+  ProfileUpdateFetchState
+> {
+  constructor(props: ProfileUpdateFetchProps) {
     super(props);
     this.state = {
-      first_name: "",
-      last_name: "",
-      address_1: "",
-      address_2: "",
-      city: "",
-      state: "",
-      zipcode: "",
-      phone_number: "",
+      first_name: this.props.profile.first_name,
+      last_name: this.props.profile.last_name,
+      email: this.props.profile.email,
+      address_1: this.props.profile.address_1,
+      address_2: this.props.profile.address_2,
+      city: this.props.profile.city,
+      state: this.props.profile.state,
+      zipcode: this.props.profile.zipcode,
+      phone_number: this.props.profile.phone_number,
     };
   }
 
-  handleSubmit = (event: any) => {
+  updateProfileFetch = (event: any) => {
     event.preventDefault();
     const token = this.props.sessionToken
       ? this.props.sessionToken
       : localStorage.getItem("sessionToken");
-    fetch(`${APIURL}/profile/new`, {
-      method: "POST",
+    fetch(`${APIURL}/profile/`, {
+      method: "PUT",
       body: JSON.stringify({
         profile: {
           first_name: this.state.first_name,
@@ -60,16 +68,16 @@ class Profile extends Component<ProfileProps, ProfileState> {
           zipcode: this.state.zipcode,
           phone_number: this.state.phone_number,
         },
-      }),
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: token ? token : "",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token ? token : "",
+        }),
       }),
     })
       .then((response) => response.json())
-      .then((json: IProfile) => {
+      .then((json: any) => {
         console.log(json);
-        this.props.toggle(event);
+        this.props.toggle();
       });
   };
 
@@ -80,8 +88,7 @@ class Profile extends Component<ProfileProps, ProfileState> {
           color="danger"
           onClick={(event) => this.props.toggle(event)}
         ></Button>
-        <Modal isOpen={true} >
-
+        <Modal isOpen={true}>
           <ModalHeader>Personal Profile</ModalHeader>
           <ModalBody>
             <Form>
@@ -175,11 +182,17 @@ class Profile extends Component<ProfileProps, ProfileState> {
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={this.handleSubmit}>Submit</Button>
+            <Button color="primary" onClick={this.updateProfileFetch}>
+              Submit
+            </Button>
+            <Button onClick={(event) => this.props.toggle(event)}>
+              Cancel
+            </Button>
           </ModalFooter>
         </Modal>
       </div>
     );
   }
 }
-export default Profile;
+
+export default ProfileUpdate;

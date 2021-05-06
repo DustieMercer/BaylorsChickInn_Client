@@ -44,9 +44,10 @@ componentDidMount = () => {
       }),
     })
       .then((response) => response.json())
-      .then((json: any) => {
-        this.setState({chick: json})
-        
+      .then((json: IChick) => {
+        if (json !== null) {
+          this.setState({chick: json})
+        }        
       });
   };
   render() {

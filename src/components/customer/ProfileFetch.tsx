@@ -4,6 +4,7 @@ import * as React from "react";
 import ProfileDisplay from './ProfileDisplay';
 import { Button, Table } from "reactstrap";
 import IProfile from '../interfaces/IProfile';
+import Profile from './Profile';
 
 export interface ProfileFetchProps {
   sessionToken: string;
@@ -11,6 +12,7 @@ export interface ProfileFetchProps {
 
 export interface ProfileFetchState {
   profile: IProfile;
+  createProfile: boolean;
 }
 
 class ProfileFetch extends React.Component<
@@ -31,7 +33,8 @@ class ProfileFetch extends React.Component<
         zipcode: "",
         phone_number: "",
         id: NaN,
-      }
+      },
+      createProfile: false,
     };
   }
 componentDidMount = () => {
@@ -61,12 +64,13 @@ componentDidMount = () => {
   render() {
     return (
       <div>
-     
+   
         <ProfileDisplay
           profile={this.state.profile}
           sessionToken={this.props.sessionToken}
+          createProfile={this.state.createProfile}
         />
-
+     
 
       </div>
     );

@@ -3,29 +3,34 @@ import { Button, Container } from "reactstrap";
 import ProfileFetch from "./ProfileFetch";
 import IProfile from "../interfaces/IProfile";
 import Table from "react-bootstrap/Table";
-import Profile from './Profile';
+import Profile from "./Profile";
+import ProfileUpdate from "./ProfileUpdate";
 
 export interface ProfileDisplayProps {
   sessionToken: string;
   profile: IProfile;
+  createProfile: boolean;
 }
 
 export interface ProfileDisplayState {
   showModal: boolean;
 }
 
-class ProfileDisplay extends React.Component<ProfileDisplayProps, ProfileDisplayState> {
+class ProfileDisplay extends React.Component<
+  ProfileDisplayProps,
+  ProfileDisplayState
+> {
   constructor(props: any) {
     super(props);
     this.state = {
-      showModal: true,
+      showModal: this.props.createProfile,
     };
   }
 
-  toggle = () => {
-    this.setState({ showModal: !this.state.showModal})
-  }
-  
+  toggle = (event: any) => {
+    this.setState({ showModal: !this.state.showModal });
+  };
+
   render() {
     console.log(this.props.profile);
     return (
@@ -72,14 +77,36 @@ class ProfileDisplay extends React.Component<ProfileDisplayProps, ProfileDisplay
               </tr>
               <tr>
                 <th scope="row"></th>
-                <td>{<Button style={{ float: "right" }} >Update</Button>}</td>
+                <td>
+                  <Button
+                    style={{ float: "right" }}
+                    onClick={(event) => this.toggle(event)}
+                  >
+                    Update
+                  </Button>
+                  
+                </td>
               </tr>
             </tbody>
           </Table>
+          <Button color="danger" style={{ float: "right" }}>Delete User</Button>
         </Container>
 
-  {this.state.showModal == false ? <Profile sessionToken={this.props.sessionToken} toggle={this.toggle} /> : null}
-  </div>
+        {/* {this.state.showModal == false ? (
+          <Profile
+            sessionToken={this.props.sessionToken}
+            toggle={this.toggle}
+          />
+        ) : null} */}
+
+        {this.state.showModal == false ? (
+          <ProfileUpdate
+            profile={this.props.profile}
+            sessionToken={this.props.sessionToken}
+            toggle={this.toggle}
+          />
+        ) : null}
+      </div>
     );
   }
 }
