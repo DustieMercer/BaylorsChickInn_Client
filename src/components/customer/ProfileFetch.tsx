@@ -12,7 +12,6 @@ export interface ProfileFetchProps {
 
 export interface ProfileFetchState {
   profile: IProfile;
-  createProfile: boolean;
 }
 
 class ProfileFetch extends React.Component<
@@ -34,7 +33,6 @@ class ProfileFetch extends React.Component<
         phone_number: "",
         id: NaN,
       },
-      createProfile: false,
     };
   }
 componentDidMount = () => {
@@ -56,8 +54,7 @@ componentDidMount = () => {
       .then((json: IProfile) => {
         if (json !== null) {
           this.setState({profile: json})
-        }
-        
+        }         
       });
       
   };
@@ -68,7 +65,6 @@ componentDidMount = () => {
         <ProfileDisplay
           profile={this.state.profile}
           sessionToken={this.props.sessionToken}
-          createProfile={this.state.createProfile}
         />
      
 

@@ -67,8 +67,8 @@ class AddChick extends React.Component<AddChickProps, AddChickState> {
   handleClick = (event: any) => {
     event.preventDefault();
     const token = this.props.sessionToken
-    ? this.props.sessionToken
-    : localStorage.getItem("sessionToken");
+      ? this.props.sessionToken
+      : localStorage.getItem("sessionToken");
     fetch(`${APIURL}/chick/hatched`, {
       method: "POST",
       body: JSON.stringify({
@@ -96,9 +96,14 @@ class AddChick extends React.Component<AddChickProps, AddChickState> {
   render() {
     return (
       <div>
-        <Button color="primary" onClick={this.toggle}>
+       <Row >
+       <Button 
+       style={{ justifyContent: "right", margin:"10px" }} 
+       color="primary" 
+       onClick={this.toggle}>
           Add Chick
         </Button>
+        </Row>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Add New Chick</ModalHeader>
           <ModalBody>
@@ -144,7 +149,7 @@ class AddChick extends React.Component<AddChickProps, AddChickState> {
                   />
                 </Col>
               </Row>
-              <br/>
+              <br />
               <Row>
                 <Col>
                   <Input

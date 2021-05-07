@@ -9,7 +9,6 @@ import ProfileUpdate from "./ProfileUpdate";
 export interface ProfileDisplayProps {
   sessionToken: string;
   profile: IProfile;
-  createProfile: boolean;
 }
 
 export interface ProfileDisplayState {
@@ -23,7 +22,7 @@ class ProfileDisplay extends React.Component<
   constructor(props: any) {
     super(props);
     this.state = {
-      showModal: this.props.createProfile,
+      showModal: false,
     };
   }
 
