@@ -16,11 +16,13 @@ import {
 export interface DeleteChickProps {
   sessionToken: string;
   fetchChicks:Function;
+  id:number;
+  chick_name: string;
 }
 
 export interface DeleteChickState {
   modal: boolean;
-  id:number;
+  
 }
 
 class DeleteChick extends React.Component<DeleteChickProps, DeleteChickState> {
@@ -28,7 +30,6 @@ class DeleteChick extends React.Component<DeleteChickProps, DeleteChickState> {
     super(props);
     this.state = {
       modal: false,
-      id: 1,
     };
   }
 
@@ -39,7 +40,7 @@ class DeleteChick extends React.Component<DeleteChickProps, DeleteChickState> {
     const token = this.props.sessionToken
       ? this.props.sessionToken
       : localStorage.getItem("sessionToken");
-    fetch(`${APIURL}/chick/${this.state.id}`, {
+    fetch(`${APIURL}/chick/${this.props.id}`, {
       method: "DELETE",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -52,12 +53,11 @@ class DeleteChick extends React.Component<DeleteChickProps, DeleteChickState> {
   render() {
     return (
       <div>
-        <Button color="primary" onClick={this.toggle}>
-          Delete Chick Confirmation
+        <Button color="danger" onClick={this.toggle}>
+          Delete
         </Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Add New Chick</ModalHeader>
-          <ModalBody>You Sure?</ModalBody>
+          <ModalHeader toggle={this.toggle}>Are you sure you want to delete <strong>{this.props.chick_name}</strong>?</ModalHeader>
           <ModalFooter>
             <Button color="primary" onClick={this.handleClick}>
               Yes

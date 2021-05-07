@@ -1,22 +1,19 @@
 import { Component } from "react";
 import APIURL from "../../helpers/environment";
 import {
-  Form,
-  Input,
   Button,
   Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
+  Container,
+  Col,
+  Row,
+} from "react-bootstrap";
 import IProfile from "../interfaces/IProfile";
 
-export interface ProfileProps {
+export interface ProfileCreateProps {
   sessionToken: string;
-  toggle: Function;
 }
 
-export interface ProfileState {
+export interface ProfileCreateState {
   first_name: string;
   last_name: string;
   address_1: string;
@@ -25,10 +22,11 @@ export interface ProfileState {
   state: string;
   zipcode: string;
   phone_number: string;
+  showModal: boolean;
 }
 
-class Profile extends Component<ProfileProps, ProfileState> {
-  constructor(props: ProfileProps) {
+class ProfileCreate extends Component<ProfileCreateProps, ProfileCreateState> {
+  constructor(props: ProfileCreateProps) {
     super(props);
     this.state = {
       first_name: "",
@@ -39,8 +37,12 @@ class Profile extends Component<ProfileProps, ProfileState> {
       state: "",
       zipcode: "",
       phone_number: "",
+      showModal: true,
     };
   }
+  toggle = () => {
+    this.setState({ showModal: !this.state.showModal });
+  };
 
   handleSubmit = (event: any) => {
     event.preventDefault();
@@ -69,14 +71,58 @@ class Profile extends Component<ProfileProps, ProfileState> {
       .then((response) => response.json())
       .then((json: IProfile) => {
         console.log(json);
-        this.props.toggle(event);
+        this.toggle();
       });
   };
 
   render() {
     return (
       <div>
-        <Button
+
+<Modal aria-labelledby="contained-modal-title-vcenter">
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Using Grid in Modal
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body className="show-grid">
+        <Container>
+          <Row>
+            <Col xs={12} md={8}>
+              .col-xs-12 .col-md-8
+            </Col>
+            <Col xs={6} md={4}>
+              .col-xs-6 .col-md-4
+            </Col>
+          </Row>
+
+          <Row>
+            <Col xs={6} md={4}>
+              .col-xs-6 .col-md-4
+            </Col>
+            <Col xs={6} md={4}>
+              .col-xs-6 .col-md-4
+            </Col>
+            <Col xs={6} md={4}>
+              .col-xs-6 .col-md-4
+            </Col>
+          </Row>
+        </Container>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={this.toggle}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+
+
+
+
+
+
+
+
+
+        {/* <Button
           color="danger"
           onClick={(event) => this.props.toggle(event)}
         ></Button>
@@ -177,9 +223,9 @@ class Profile extends Component<ProfileProps, ProfileState> {
           <ModalFooter>
             <Button onClick={this.handleSubmit}>Submit</Button>
           </ModalFooter>
-        </Modal>
+        </Modal> */}
       </div>
     );
   }
 }
-export default Profile;
+export default ProfileCreate;

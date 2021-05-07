@@ -4,12 +4,11 @@ import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button } from "reactstrap";
 import logo from "../assets/ChickInn2.png";
 import ChickDisplay from "./chicks/ChickDisplay";
 import ChickAdmin from "../admin/ChickAdmin";
-import Cloudinary from '../admin/Cloudinary';
 import Auth from "../auth/Auth";
 import Home from "./Home";
 import Recipes from "./Recipes";
 import ProfileDisplay from "../customer/ProfileDisplay";
-import ProfileFetch from "../customer/ProfileFetch";
+
 
 export interface NavBarProps {
   updateToken: Function;
@@ -60,7 +59,7 @@ class NavBar extends Component<NavBarProps, NavBarState> {
               </Link>
             </NavItem>
 
-            {/******** CUSTOMER ROUTES ***********/}
+            {/******** PROTECTED ROUTES ***********/}
 
             {localStorage.getItem("sessionToken") ? (
               <NavItem>
@@ -71,8 +70,6 @@ class NavBar extends Component<NavBarProps, NavBarState> {
             ) : (
               ""
             )}
-
-            {/******** ADMIN ROUTES ***********/}
 
             {localStorage.getItem("role") === "admin" ? (
               <NavItem>
@@ -99,12 +96,14 @@ class NavBar extends Component<NavBarProps, NavBarState> {
           </Route>
           <Route exact path="/meetthechicks" component={ChickDisplay} />
           <Route exact path="/recipes" component={Recipes} />
-          <Route exact path="/profile"> <ProfileFetch sessionToken={this.props.sessionToken} />
+          <Route exact path="/profile"> 
+          <ProfileDisplay sessionToken={this.props.sessionToken} />
             </Route> 
           <Route exact path="/chickadmin"> 
           <ChickAdmin sessionToken={this.props.sessionToken} />
             </Route> 
           <Route exact path="/account">
+          <ProfileDisplay sessionToken={this.props.sessionToken} />
             <Auth
               updateToken={this.props.updateToken}
               updateRole={this.props.updateRole}

@@ -4,17 +4,7 @@ import AddChick from "./AddChick";
 import IChick from "../interfaces/IChick";
 import DeleteChick from "./DeleteChick";
 
-import {
-  Card,
-  Button,
-  CardImg,
-  CardTitle,
-  CardText,
-  CardDeck,
-  CardSubtitle,
-  CardBody,
-} from "reactstrap";
-import ChickMapper from "./ChickMapper";
+import { Card, Button, CardImg } from "react-bootstrap";
 
 export interface ChickAdminProps {
   sessionToken: string;
@@ -27,6 +17,7 @@ export interface ChickAdminState {
   chick_production: string;
   chick_persona: string;
   photo: string;
+  id: number;
 }
 
 class ChickAdmin extends React.Component<ChickAdminProps, ChickAdminState> {
@@ -39,6 +30,7 @@ class ChickAdmin extends React.Component<ChickAdminProps, ChickAdminState> {
       chick_production: "",
       chick_persona: "",
       photo: "",
+      id: NaN,
     };
   }
 
@@ -64,43 +56,44 @@ class ChickAdmin extends React.Component<ChickAdminProps, ChickAdminState> {
   };
 
   render() {
-    
     return (
       <div>
         <AddChick sessionToken={this.props.sessionToken} />
 
-
-        {this.state.chicks.map((chick:{
-chick_name: string, chick_type: string, chick_production: string, chick_persona: string,
-photo: string}, index) => {
-          return (
-            <CardDeck>
-            <Card>
-            <CardImg
-              top
-              width="25%"
-              src={chick.photo}
-              alt="Card image cap"
-            />
-            <CardBody>
-              <CardTitle tag="h5">Name:{chick.chick_name}</CardTitle>
-              <CardSubtitle tag="h6" className="mb-2 text-muted">
-                Breed:{this.state.chick_type}
-              </CardSubtitle>
-              <CardText>
-                Annual Egg Production:{chick.chick_production}
-              </CardText>
-              <CardText>Fun Fact:{chick.chick_persona}</CardText>
-            </CardBody>
-          </Card>
-          </CardDeck>
-          )
-          
-        })}
-        <DeleteChick
-          sessionToken={this.props.sessionToken}
-          fetchChicks={this.fetchChicks}
-        />
+        {this.state.chicks.map(
+          (
+            chick: {
+              chick_name: string;
+              chick_type: string;
+              chick_production: string;
+              chick_persona: string;
+              photo: string;
+              id: number;
+            },
+            index
+          ) => {
+            return (
+              <Card style={{ width: "18rem" }}>
+                <Card.Img variant="top" src={chick.photo} />
+                <Card.Body>
+                  <Card.Title>{chick.chick_name}</Card.Title>
+                  <Card.Text>{chick.chick_type}</Card.Text>
+                  <Card.Text>
+                    Annual Egg Production:{" "}
+                    <strong>{chick.chick_production}</strong>
+                  </Card.Text>
+                  <Card.Text>{chick.chick_persona}</Card.Text>
+                  <DeleteChick
+                    sessionToken={this.props.sessionToken}
+                    fetchChicks={this.fetchChicks}
+                    id={chick.id}
+                    chick_name={chick.chick_name}
+                  />
+                </Card.Body>
+              </Card>        
+            );
+          }
+        )}
       </div>
     );
   }
