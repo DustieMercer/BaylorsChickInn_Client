@@ -2,7 +2,7 @@ let APIURL = '';
 
 switch (window.location.hostname) {
     // this is the local host name of your react app
-    case 'localhost' || 'TBD':
+    case 'localhost' || '10.0.0.251':
         // this is the local host name of your API
         APIURL = 'http://localhost:3000';
         break;

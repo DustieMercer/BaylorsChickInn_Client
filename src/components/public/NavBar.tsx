@@ -4,6 +4,7 @@ import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button } from "reactstrap";
 import logo from "../assets/ChickInn2.png";
 import ChickDisplay from "./chicks/ChickDisplay";
 import ChickAdmin from "../admin/ChickAdmin";
+import Cloudinary from '../admin/Cloudinary';
 import Auth from "../auth/Auth";
 import Home from "./Home";
 import Recipes from "./Recipes";
