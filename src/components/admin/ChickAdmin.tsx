@@ -28,7 +28,6 @@ class ChickAdmin extends React.Component<
         chick_production: "",
         chick_persona: "",
         photo: "",
-        id: NaN
       }
     };
   }
@@ -37,7 +36,7 @@ class ChickAdmin extends React.Component<
     const token = this.props.sessionToken
       ? this.props.sessionToken
       : localStorage.getItem("sessionToken");
-    fetch(`${APIURL}/chick/${this.state.chick.id}`, {
+    fetch(`${APIURL}/chick/`, {
       method: "PUT",
       headers: new Headers({
         "Content-Type": "application/json",

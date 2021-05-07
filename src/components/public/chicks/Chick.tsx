@@ -23,8 +23,7 @@ class Chick extends React.Component<
         chick_type: "",
         chick_production: "",
         chick_persona: "",
-        photo: '../../assets/chickenIcon_blue.png',
-        id: NaN,
+        photo: "",
       }
     };
   }
@@ -33,25 +32,25 @@ componentDidMount = () => {
 }
 
   fetchChick = () => {
-    const token = this.props.sessionToken
-      ? this.props.sessionToken
-      : localStorage.getItem("sessionToken");
+    // const token = this.props.sessionToken
+    //   ? this.props.sessionToken
+    //   : localStorage.getItem("sessionToken");
     fetch(`${APIURL}/chick/`, {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
-        "Authorization": token ? token : "",
+        // "Authorization": token ? token : "",
       }),
     })
       .then((response) => response.json())
       .then((json: IChick) => {
+        console.log(json)
         if (json !== null) {
           this.setState({chick: json})
-        }        
+        }
       });
   };
   render() {
-    console.log(this.state.chick)
     return (
       <div>
 
