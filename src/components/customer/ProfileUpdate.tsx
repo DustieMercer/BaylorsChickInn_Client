@@ -81,15 +81,13 @@ class ProfileUpdate extends React.Component<
       });
   };
 
+
   render() {
     return (
       <div>
-        <Button
-          color="danger"
-          onClick={(event) => this.props.toggle(event)}
-        ></Button>
-        <Modal isOpen={true}>
-          <ModalHeader>Personal Profile</ModalHeader>
+    
+        <Modal isOpen={true} >
+          <ModalHeader >Personal Profile</ModalHeader>
           <ModalBody>
             <Form>
               <br />
