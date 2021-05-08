@@ -1,4 +1,3 @@
-import { Component } from "react";
 import APIURL from "../../helpers/environment";
 import * as React from "react";
 import {
@@ -16,7 +15,13 @@ import IChick from "../interfaces/IChick";
 
 export interface UpdateChickProps {
   sessionToken: string;
-  chick: IChick;
+  fetchChicks: Function;
+  chick_name: string;
+  chick_type: string;
+  chick_production: string;
+  chick_persona: string;
+  photo: string;
+  id: number;
 }
 
 export interface UpdateChickState {
@@ -38,12 +43,12 @@ class UpdateChick extends React.Component<UpdateChickProps, UpdateChickState> {
       modal: false,
       image: "",
       loading: false,
-      chick_name: this.props.chick.chick_name,
-      chick_type: this.props.chick.chick_type,
-      chick_production: this.props.chick.chick_production,
-      chick_persona: this.props.chick.chick_persona,
-      photo: this.props.chick.photo,
-      id: this.props.chick.id,
+      chick_name: this.props.chick_name,
+      chick_type: this.props.chick_type,
+      chick_production: this.props.chick_production,
+      chick_persona: this.props.chick_persona,
+      photo: this.props.photo,
+      id: this.props.id,
     };
   }
   toggle = () => this.setState({ modal: !this.state.modal });
@@ -72,7 +77,7 @@ class UpdateChick extends React.Component<UpdateChickProps, UpdateChickState> {
     const token = this.props.sessionToken
       ? this.props.sessionToken
       : localStorage.getItem("sessionToken");
-    fetch(`${APIURL}/chick/${this.props.chick.id}`, {
+    fetch(`${APIURL}/chick/${this.props.id}`, {
       method: "PUT",
       body: JSON.stringify({
         chick: {
@@ -104,11 +109,11 @@ class UpdateChick extends React.Component<UpdateChickProps, UpdateChickState> {
        style={{ justifyContent: "right", margin:"10px" }} 
        color="primary" 
        onClick={this.toggle}>
-          Add Chick
+          Update Chick
         </Button>
         </Row>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Add New Chick</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Update {this.props.chick_name}</ModalHeader>
           <ModalBody>
             <Form>
               <Row>

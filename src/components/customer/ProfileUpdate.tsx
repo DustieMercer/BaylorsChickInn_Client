@@ -81,6 +81,7 @@ class ProfileUpdate extends React.Component<
       .then((response) => response.json())
       .then((json: any) => {
         console.log(json);
+        
         this.props.toggle();
       });
   };
@@ -92,7 +93,7 @@ class ProfileUpdate extends React.Component<
           <Row>
             <Button
               style={{ justifyContent: "right", margin: "10px" }}
-              color="primary"
+              color="$blue"
               onClick={this.toggle}
             >
               Update Profile
@@ -221,12 +222,7 @@ class ProfileUpdate extends React.Component<
                     />
                   </Col>
                 </Row>
-                <br />
-                <Row>
-                  <Col>
-                    <Input />
-                  </Col>
-                </Row>
+              
               </Form>
             </ModalBody>
             <ModalFooter>

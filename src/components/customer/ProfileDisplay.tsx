@@ -45,6 +45,7 @@ class ProfileDisplay extends React.Component<
 
   componentDidMount = () => {
     this.fetchProfile();
+    console.log(this.props.sessionToken)
   };
 
   fetchProfile = () => {
@@ -126,14 +127,6 @@ class ProfileDisplay extends React.Component<
           </Table>
           
         </Container>
-
-        {/* {this.state.showModal == true ? (
-          <ProfileUpdate
-            profile={this.state.profile}
-            sessionToken={this.props.sessionToken}
-            toggle={this.toggle}
-          />
-        ) : null} */}
       </div>
     );
   }

@@ -3,6 +3,7 @@ import * as React from "react";
 import AddChick from "./AddChick";
 import IChick from "../interfaces/IChick";
 import DeleteChick from "./DeleteChick";
+import UpdateChick from './UpdateChick';
 
 import { Card, Button, CardImg } from "react-bootstrap";
 
@@ -36,6 +37,7 @@ class ChickAdmin extends React.Component<ChickAdminProps, ChickAdminState> {
 
   componentDidMount = () => {
     this.fetchChicks();
+    console.log(this.props.sessionToken)
   };
   fetchChicks = () => {
     const token = this.props.sessionToken
@@ -45,7 +47,7 @@ class ChickAdmin extends React.Component<ChickAdminProps, ChickAdminState> {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
-        Authorization: token ? token : "",
+        Authorization: token ? token : '',
       }),
     })
       .then((response) => response.json())
@@ -83,6 +85,16 @@ class ChickAdmin extends React.Component<ChickAdminProps, ChickAdminState> {
                     <strong>{chick.chick_production}</strong>
                   </Card.Text>
                   <Card.Text>{chick.chick_persona}</Card.Text>
+                  <UpdateChick
+                    sessionToken={this.props.sessionToken}
+                    fetchChicks={this.fetchChicks}
+                    chick_name={this.state.chick_name}
+                    chick_type={this.state.chick_type}
+                    chick_production={this.state.chick_production}
+                    chick_persona={this.state.chick_persona}
+                    photo={this.state.photo}
+                    id={this.state.id}
+                  />
                   <DeleteChick
                     sessionToken={this.props.sessionToken}
                     fetchChicks={this.fetchChicks}
