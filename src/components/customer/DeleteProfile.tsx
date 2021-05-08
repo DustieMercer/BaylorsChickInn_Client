@@ -13,20 +13,18 @@ import {
   Input,
 } from "reactstrap";
 
-export interface DeleteChickProps {
+export interface DeleteProfileProps {
   sessionToken: string;
-  fetchChicks:Function;
-  id:number;
-  chick_name: string;
+  id: number;
+  first_name: string;
 }
 
-export interface DeleteChickState {
+export interface DeleteProfileState {
   modal: boolean;
-  
 }
 
-class DeleteChick extends React.Component<DeleteChickProps, DeleteChickState> {
-  constructor(props: DeleteChickProps) {
+class DeleteProfile extends React.Component<DeleteProfileProps, DeleteProfileState> {
+  constructor(props: DeleteProfileProps) {
     super(props);
     this.state = {
       modal: false,
@@ -40,30 +38,28 @@ class DeleteChick extends React.Component<DeleteChickProps, DeleteChickState> {
     const token = this.props.sessionToken
       ? this.props.sessionToken
       : localStorage.getItem("sessionToken");
-    fetch(`${APIURL}/chick/${this.props.id}`, {
+    fetch(`${APIURL}/profile/${this.props.id}`, {
       method: "DELETE",
       headers: new Headers({
         "Content-Type": "application/json",
         Authorization: token ? token : "",
       }),
     })
-      .then(() => this.props.fetchChicks())
+      .then((res) => console.log(res))
   };
 
   render() {
     return (
       <div>
-        <Row>
-        <Button color="danger" onClick={this.toggle} style={{margin:'10px'}}>
+        <Button color="danger" onClick={this.toggle}>
           Delete
         </Button>
-        </Row>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Are you sure you want to delete <strong>{this.props.chick_name}</strong>?</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Are you sure you want to delete <strong>{this.props.first_name}</strong>?</ModalHeader>
           <ModalFooter>
             <Button color="primary" onClick={this.handleClick}>
               Yes
-            </Button>
+            </Button>{" "}
             <Button color="secondary" onClick={this.toggle}>
               Cancel
             </Button>
@@ -74,4 +70,4 @@ class DeleteChick extends React.Component<DeleteChickProps, DeleteChickState> {
   }
 }
 
-export default DeleteChick;
+export default DeleteProfile;

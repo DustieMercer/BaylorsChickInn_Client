@@ -1,16 +1,20 @@
 import { Component } from "react";
 import APIURL from "../../helpers/environment";
 import {
+  Row,
+  Form,
+  Input,
   Button,
   Modal,
-  Container,
-  Col,
-  Row,
-} from "react-bootstrap";
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
 import IProfile from "../interfaces/IProfile";
 
 export interface ProfileCreateProps {
   sessionToken: string;
+  fetchProfile:Function;
 }
 
 export interface ProfileCreateState {
@@ -37,11 +41,12 @@ class ProfileCreate extends Component<ProfileCreateProps, ProfileCreateState> {
       state: "",
       zipcode: "",
       phone_number: "",
-      showModal: true,
+      showModal: false,
     };
   }
   toggle = () => {
     this.setState({ showModal: !this.state.showModal });
+    this.props.fetchProfile();
   };
 
   handleSubmit = (event: any) => {
@@ -78,55 +83,11 @@ class ProfileCreate extends Component<ProfileCreateProps, ProfileCreateState> {
   render() {
     return (
       <div>
-
-<Modal aria-labelledby="contained-modal-title-vcenter">
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Using Grid in Modal
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body className="show-grid">
-        <Container>
-          <Row>
-            <Col xs={12} md={8}>
-              .col-xs-12 .col-md-8
-            </Col>
-            <Col xs={6} md={4}>
-              .col-xs-6 .col-md-4
-            </Col>
-          </Row>
-
-          <Row>
-            <Col xs={6} md={4}>
-              .col-xs-6 .col-md-4
-            </Col>
-            <Col xs={6} md={4}>
-              .col-xs-6 .col-md-4
-            </Col>
-            <Col xs={6} md={4}>
-              .col-xs-6 .col-md-4
-            </Col>
-          </Row>
-        </Container>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={this.toggle}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-
-
-
-
-
-
-
-
-
-        {/* <Button
+        <Button
           color="danger"
-          onClick={(event) => this.props.toggle(event)}
+          onClick={this.toggle}
         ></Button>
-        <Modal isOpen={true} >
+        <Modal isOpen={false} >
 
           <ModalHeader>Personal Profile</ModalHeader>
           <ModalBody>
@@ -222,8 +183,9 @@ class ProfileCreate extends Component<ProfileCreateProps, ProfileCreateState> {
           </ModalBody>
           <ModalFooter>
             <Button onClick={this.handleSubmit}>Submit</Button>
+            <Button onClick={this.toggle}>Cancel</Button>
           </ModalFooter>
-        </Modal> */}
+        </Modal>
       </div>
     );
   }

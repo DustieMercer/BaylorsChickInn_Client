@@ -74,9 +74,7 @@ class UpdateChick extends React.Component<UpdateChickProps, UpdateChickState> {
 
   handleClick = (event: any) => {
     event.preventDefault();
-    const token = this.props.sessionToken
-      ? this.props.sessionToken
-      : localStorage.getItem("sessionToken");
+    let token = this.props.sessionToken ? this.props.sessionToken : localStorage.getItem('sessionToken')
     fetch(`${APIURL}/chick/${this.props.id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -90,7 +88,7 @@ class UpdateChick extends React.Component<UpdateChickProps, UpdateChickState> {
       }),
       headers: new Headers({
         "Content-Type": "application/json",
-        Authorization: token ? token : "",
+        Authorization: token ? token : '',
       }),
     })
       .then((response) => response.json())

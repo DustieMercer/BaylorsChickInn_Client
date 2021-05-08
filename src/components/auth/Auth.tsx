@@ -61,9 +61,9 @@ class Auth extends Component<AuthProps, AuthState> {
   render() {
     return (
       <div>
-        <Button color="Primary" onClick={this.toggle}>
+        {/* <Button color="Primary" onClick={this.toggle}>
           {this.state.buttonLabel}
-        </Button>
+        </Button> */}
         <Modal
           isOpen={this.state.modal}
           toggle={this.toggle}

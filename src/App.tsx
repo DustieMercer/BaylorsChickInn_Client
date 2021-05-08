@@ -9,13 +9,14 @@ export interface AppProps {
 }
 
 export interface AppState {
-
+  sessionToken: string,
 }
 
 class App extends Component<any, any> {
   constructor(props:any) {
     super(props); 
     this.state = {
+      sessionToken:'',
     };    
 }
   updateToken = (newSessionToken: string) => {
@@ -32,10 +33,6 @@ updateRole = (newRole: string) => {
 localStorage.setItem('role', newRole)
 this.setState({role: newRole})
 }
-
-
-
- 
 
 render(){
   return (

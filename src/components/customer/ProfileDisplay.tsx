@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Button, Container } from "reactstrap";
+import { Button, Container, Row } from "reactstrap";
 import IProfile from "../interfaces/IProfile";
 import Table from "react-bootstrap/Table";
 import ProfileUpdate from "./ProfileUpdate";
 import APIURL from "../../helpers/environment";
-import ProfileCreate from './ProfileCreate';
+import DeleteProfile from "./DeleteProfile";
 
 export interface ProfileDisplayProps {
   sessionToken: string;
@@ -12,8 +12,8 @@ export interface ProfileDisplayProps {
 
 export interface ProfileDisplayState {
   showModal: boolean;
+  needProfile: boolean;
   profile: IProfile;
-  needProfile:boolean;
 }
 
 class ProfileDisplay extends React.Component<
@@ -24,8 +24,8 @@ class ProfileDisplay extends React.Component<
     super(props);
     this.state = {
       showModal: false,
-      needProfile:true,
-      profile: {
+      needProfile: true,
+      profile:{
         first_name: "",
         last_name: "",
         email: "",
@@ -36,16 +36,17 @@ class ProfileDisplay extends React.Component<
         zipcode: "",
         phone_number: "",
         id: NaN,
-      },
+      }
     };
   }
-  toggle = (event: any) => {
+  toggle = () => {
     this.setState({ showModal: !this.state.showModal });
+    this.fetchProfile();
   };
 
   componentDidMount = () => {
     this.fetchProfile();
-    console.log(this.props.sessionToken)
+    console.log(this.props.sessionToken);
   };
 
   fetchProfile = () => {
@@ -62,8 +63,8 @@ class ProfileDisplay extends React.Component<
       .then((response) => response.json())
       .then((json: IProfile) => {
         if (json !== null) {
-          this.setState({ profile: json })
-          this.setState({needProfile: false});
+          this.setState({ profile: json });
+          this.setState({ needProfile: false });
         }
       });
   };
@@ -71,20 +72,13 @@ class ProfileDisplay extends React.Component<
   render() {
     console.log(this.state.profile);
     return (
-      <div>
-        {this.state.needProfile === true ? <ProfileCreate sessionToken={this.props.sessionToken}/> : ''}
+      <div> 
         <Container>
-          <Table striped bordered hover responsive='m'>
+          <Table striped bordered hover responsive="m">
             <thead>
               <tr>
                 <th style={{ width: "150px" }}>PROFILE</th>
-                <td className="align-items-end">
-                  <ProfileUpdate
-                    profile={this.state.profile}
-                    sessionToken={this.props.sessionToken}
-                    toggle={this.toggle}
-                  />
-                </td>
+                <td className="align-items-end"></td>
               </tr>
             </thead>
             <tbody>
@@ -118,14 +112,38 @@ class ProfileDisplay extends React.Component<
               </tr>
               <tr>
                 <th scope="row">Phone Number:</th>
-                <td>{this.state.profile.phone_number}</td>
+                <td>{this.state.profile.phone_number}</td>                
+              </tr>
+              <tr>
+                <th></th>
+                <td></td>
+                <td>
+                  
+             <ProfileUpdate
+                      first_name={this.state.profile.first_name}
+                      last_name={this.state.profile.last_name}
+                      email={this.state.profile.email}
+                      address_1={this.state.profile.address_1}
+                      address_2={this.state.profile.address_2}
+                      city={this.state.profile.city}
+                      state={this.state.profile.state}
+                      zipcode={this.state.profile.zipcode}
+                      phone_number={this.state.profile.phone_number}
+                      fetchProfile={this.fetchProfile}
+                      sessionToken={this.props.sessionToken}
+                    /> 
+</td>
+<td>
+                    <DeleteProfile
+                      sessionToken={this.props.sessionToken}
+                      first_name={this.state.profile.first_name}
+                      id={this.state.profile.id}
+                    />
+          
+                </td>
               </tr>
             </tbody>
-            <Button color="danger" style={{ float: "right" }}>
-            Delete User
-          </Button>
           </Table>
-          
         </Container>
       </div>
     );

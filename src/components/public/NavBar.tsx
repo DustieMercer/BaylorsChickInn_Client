@@ -8,6 +8,7 @@ import Auth from "../auth/Auth";
 import Home from "./Home";
 import Recipes from "./Recipes";
 import ProfileDisplay from "../customer/ProfileDisplay";
+import OrderDisplay from '../customer/OrderDisplay';
 
 
 export interface NavBarProps {
@@ -49,12 +50,12 @@ class NavBar extends Component<NavBarProps, NavBarState> {
           <Nav>
             {/******** PUBLIC ROUTES ***********/}
             <NavItem>
-              <Link to="/meetthechicks">
+              <Link to="/meetthechicks" style={{ textDecoration: 'none' }}>
                 <NavLink>Meet the Chicks</NavLink>
               </Link>
             </NavItem>
             <NavItem>
-              <Link to="/recipes">
+              <Link to="/recipes" style={{ textDecoration: 'none' }}>
                 <NavLink>Egg Recipes</NavLink>
               </Link>
             </NavItem>
@@ -63,8 +64,17 @@ class NavBar extends Component<NavBarProps, NavBarState> {
 
             {localStorage.getItem("sessionToken") ? (
               <NavItem>
-                <Link to="/profile">
+                <Link to="/profile" style={{ textDecoration: 'none' }}>
                   <NavLink>My Profile</NavLink>
+                </Link>
+              </NavItem>
+            ) : (
+              ""
+            )}
+            {localStorage.getItem("sessionToken") ? (
+              <NavItem>
+                <Link to="/order" style={{ textDecoration: 'none' }}>
+                  <NavLink>Orders</NavLink>
                 </Link>
               </NavItem>
             ) : (
@@ -73,7 +83,7 @@ class NavBar extends Component<NavBarProps, NavBarState> {
 
             {localStorage.getItem("role") === "admin" ? (
               <NavItem>
-                <Link to="/chickadmin">
+                <Link to="/chickadmin" style={{ textDecoration: 'none' }}>
                   <NavLink>Chick Admin</NavLink>
                 </Link>
               </NavItem>
@@ -85,7 +95,10 @@ class NavBar extends Component<NavBarProps, NavBarState> {
             <Button onClick={this.clearToken}>Logout</Button>  
           ) : (
             <Link to="/account">
-              <Button>Login</Button>
+              <Button><Auth
+              updateToken={this.props.updateToken}
+              updateRole={this.props.updateRole}
+            />Login</Button>
             </Link>
           )}
         </Navbar>
@@ -99,16 +112,12 @@ class NavBar extends Component<NavBarProps, NavBarState> {
           <Route exact path="/profile"> 
           <ProfileDisplay sessionToken={this.props.sessionToken} />
             </Route> 
+            <Route exact path="/order"> 
+          <OrderDisplay sessionToken={this.props.sessionToken} />
+            </Route> 
           <Route exact path="/chickadmin"> 
           <ChickAdmin sessionToken={this.props.sessionToken} />
             </Route> 
-          <Route exact path="/account">
-          <ProfileDisplay sessionToken={this.props.sessionToken} />
-            <Auth
-              updateToken={this.props.updateToken}
-              updateRole={this.props.updateRole}
-            />
-          </Route>
         </Switch>
       </div>
     );
