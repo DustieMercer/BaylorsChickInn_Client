@@ -1,9 +1,9 @@
 import React from "react";
 import { Component } from "react";
-import "./App.css";
 import NavBar from "./components/public/NavBar";
 import Footer from "./components/public/footer/Footer";
 import { BrowserRouter as Router } from "react-router-dom";
+
 
 export interface AppProps {
   sessionToken: string;

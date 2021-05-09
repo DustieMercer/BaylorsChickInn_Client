@@ -19,7 +19,7 @@ export interface NavBarProps {
 }
 
 export interface NavBarState {
-  showLogin: boolean;
+  showAuth: boolean;
   adminRoutes: boolean;
   defaultRoutes: boolean;
 }
@@ -28,11 +28,15 @@ class NavBar extends Component<NavBarProps, NavBarState> {
   constructor(props: any) {
     super(props);
     this.state = { 
-      showLogin: true,
+      showAuth: true,
       adminRoutes: false,
       defaultRoutes: false,
     };
   }
+
+  authToggle = () => {
+    this.setState({ showAuth: !this.state.showAuth });
+  };
 
    clearToken = () => {
     localStorage.clear();
@@ -48,12 +52,15 @@ class NavBar extends Component<NavBarProps, NavBarState> {
             <img src={logo} className="headerLogo" alt="ChickInnLogo" />
           </NavbarBrand>
           <Nav>
+
             {/******** PUBLIC ROUTES ***********/}
+            
             <NavItem>
               <Link to="/meetthechicks" style={{ textDecoration: 'none' }}>
                 <NavLink>Meet the Chicks</NavLink>
               </Link>
             </NavItem>
+
             <NavItem>
               <Link to="/recipes" style={{ textDecoration: 'none' }}>
                 <NavLink>Egg Recipes</NavLink>
@@ -68,18 +75,15 @@ class NavBar extends Component<NavBarProps, NavBarState> {
                   <NavLink>My Profile</NavLink>
                 </Link>
               </NavItem>
-            ) : (
-              ""
-            )}
+            ) : ("")}
+
             {localStorage.getItem("sessionToken") ? (
               <NavItem>
                 <Link to="/order" style={{ textDecoration: 'none' }}>
                   <NavLink>Orders</NavLink>
                 </Link>
               </NavItem>
-            ) : (
-              ""
-            )}
+            ) : ("")}
 
             {localStorage.getItem("role") === "admin" ? (
               <NavItem>
@@ -87,19 +91,20 @@ class NavBar extends Component<NavBarProps, NavBarState> {
                   <NavLink>Chick Admin</NavLink>
                 </Link>
               </NavItem>
-            ) : (
-              ""
-            )}
+            ) : ("")}
           </Nav>
+
           {localStorage.getItem("sessionToken") ? (
             <Button onClick={this.clearToken}>Logout</Button>  
-          ) : (
-            <Link to="/account">
-              <Button><Auth
+          ) : (<Button onClick={this.authToggle}>
+                <Auth
               updateToken={this.props.updateToken}
               updateRole={this.props.updateRole}
-            />Login</Button>
-            </Link>
+              showAuth={this.state.showAuth}
+              toggleAuth={this.authToggle}
+            />Login
+            </Button>
+          
           )}
         </Navbar>
 
@@ -108,7 +113,9 @@ class NavBar extends Component<NavBarProps, NavBarState> {
             <Home />
           </Route>
           <Route exact path="/meetthechicks">
-            <ChickDisplay sessionToken={this.props.sessionToken} role={this.props.role} />
+            <ChickDisplay 
+            sessionToken={this.props.sessionToken} 
+            role={this.props.role} />
             </Route> 
           <Route exact path="/recipes" component={Recipes} />
           <Route exact path="/profile"> 

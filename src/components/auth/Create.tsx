@@ -2,15 +2,14 @@ import { Component } from "react";
 import APIURL from "../../helpers/environment";
 import {
   Card,
-  Label,
   FormGroup,
   Form,
-  Input,
   Button,
   Row,
   Col,
   CardImg,
-} from "reactstrap";
+  FormText
+} from "react-bootstrap";
 import chick from "../assets/chickenCardImg.jpg";
 import IUser from "../interfaces/IUser";
 import IAuth from "../interfaces/IAuth";
@@ -18,7 +17,7 @@ import IAuth from "../interfaces/IAuth";
 export interface CreateProps {
   updateToken: Function;
   updateRole: Function;
-  toggle: Function;
+  toggleAuth: Function;
 }
 
 class Create extends Component<CreateProps, IUser> {
@@ -52,7 +51,7 @@ class Create extends Component<CreateProps, IUser> {
         console.log(sessionToken, role);
         this.props.updateToken(sessionToken);
         this.props.updateRole(role);
-        this.props.toggle();
+        this.props.toggleAuth();
       });
   };
 
@@ -62,8 +61,11 @@ class Create extends Component<CreateProps, IUser> {
                
           <Form onSubmit={this.handleClick}>
         <FormGroup>
-          <Label htmlFor="email">Email</Label>
-          <Input
+          <Form.Label htmlFor="email">Email</Form.Label>
+
+
+
+          <Form.Control 
             onChange={(event) =>
               this.setState({ email: event.target.value })
             }
@@ -73,11 +75,12 @@ class Create extends Component<CreateProps, IUser> {
             autoComplete="email"
             required
           />
+           
         </FormGroup>
             <br />
             <FormGroup>
-          <Label htmlFor="password">Password</Label>
-          <Input
+          <Form.Label htmlFor="password">Password</Form.Label>
+          <Form.Control 
              onChange={(event) =>
               this.setState({ password: event.target.value })
             }
@@ -88,6 +91,7 @@ class Create extends Component<CreateProps, IUser> {
             autoComplete="password"
             required
           />
+           
         </FormGroup>
             <br />
             <Button type="submit" onClick={(event) => this.handleClick(event)}>

@@ -13,10 +13,11 @@ import Login from "./Login";
 export interface AuthProps {
   updateToken: Function;
   updateRole: Function;
+  showAuth: boolean;
+  toggleAuth:Function;
 }
 
 export interface AuthState {
-  modal: boolean;
   login: boolean;
   headerText: string;
   buttonText: string;
@@ -28,7 +29,6 @@ class Auth extends Component<AuthProps, AuthState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      modal: true,
       login: true,
       headerText: "Checking In?",
       buttonText: "Need to Register?",
@@ -36,8 +36,6 @@ class Auth extends Component<AuthProps, AuthState> {
       className: "",
     };
   }
-
-  toggle = () => this.setState({ modal: !this.state.modal });
 
   registerToggle = () =>
     this.state.login === true
@@ -53,7 +51,7 @@ class Auth extends Component<AuthProps, AuthState> {
         });
 
   closeBtn = (
-    <button className="close" onClick={this.toggle}>
+    <button className="close" onClick={(event) => this.props.toggleAuth()}>
       &times;
     </button>
   );
@@ -61,15 +59,12 @@ class Auth extends Component<AuthProps, AuthState> {
   render() {
     return (
       <div>
-        {/* <Button color="Primary" onClick={this.toggle}>
-          {this.state.buttonLabel}
-        </Button> */}
+
         <Modal
-          isOpen={this.state.modal}
-          toggle={this.toggle}
-          className={this.state.className}
+          isOpen={this.props.showAuth}
+        
         >
-          <ModalHeader toggle={this.toggle} close={this.closeBtn}>
+          <ModalHeader  close={this.closeBtn}>
             {this.state.headerText}
           </ModalHeader>
           <ModalBody>
@@ -77,13 +72,13 @@ class Auth extends Component<AuthProps, AuthState> {
               <Login
                 updateToken={this.props.updateToken}
                 updateRole={this.props.updateRole}
-                toggle={this.toggle}
+                toggleAuth={this.props.toggleAuth}
               />
             ) : (
               <Create
                 updateToken={this.props.updateToken}
                 updateRole={this.props.updateRole}
-                toggle={this.toggle}
+                toggleAuth={this.props.toggleAuth}
               />
             )}
           </ModalBody>
