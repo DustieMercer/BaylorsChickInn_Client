@@ -1,18 +1,22 @@
 import * as React from "react";
-import { Button, Container, Row } from "reactstrap";
-import IProfile from "../interfaces/IProfile";
-import Table from "react-bootstrap/Table";
-import ProfileUpdate from "./ProfileUpdate";
 import APIURL from "../../helpers/environment";
+
+import { Button, Container, Row } from "reactstrap";
+import Table from "react-bootstrap/Table";
+
+import ProfileCreate from "./ProfileCreate";
 import DeleteProfile from "./DeleteProfile";
+import ProfileUpdate from "./ProfileUpdate";
+import IProfile from "../interfaces/IProfile";
 
 export interface ProfileDisplayProps {
   sessionToken: string;
 }
 
 export interface ProfileDisplayState {
-  showModal: boolean;
-  needProfile: boolean;
+  showCreateModal: boolean;
+  showUpdateModal: boolean;
+  showDeleteModal: boolean;
   profile: IProfile;
 }
 
@@ -23,9 +27,10 @@ class ProfileDisplay extends React.Component<
   constructor(props: any) {
     super(props);
     this.state = {
-      showModal: false,
-      needProfile: true,
-      profile:{
+      showCreateModal: true,
+      showUpdateModal: false,
+      showDeleteModal: false,
+      profile: {
         first_name: "",
         last_name: "",
         email: "",
@@ -36,17 +41,22 @@ class ProfileDisplay extends React.Component<
         zipcode: "",
         phone_number: "",
         id: NaN,
-      }
+      },
     };
   }
-  toggle = () => {
-    this.setState({ showModal: !this.state.showModal });
-    this.fetchProfile();
+  toggleCreate = () => {
+    console.log("hello");
+    this.setState({ showCreateModal: !this.state.showCreateModal });
+  };
+  toggleUpdate = () => {
+    this.setState({ showUpdateModal: !this.state.showUpdateModal });
+  };
+  toggleDelete = () => {
+    this.setState({ showDeleteModal: !this.state.showDeleteModal });
   };
 
   componentDidMount = () => {
     this.fetchProfile();
-    console.log(this.props.sessionToken);
   };
 
   fetchProfile = () => {
@@ -64,21 +74,20 @@ class ProfileDisplay extends React.Component<
       .then((json: IProfile) => {
         if (json !== null) {
           this.setState({ profile: json });
-          this.setState({ needProfile: false });
+          this.setState({ showCreateModal: false });
         }
       });
   };
 
   render() {
-    console.log(this.state.profile);
     return (
-      <div> 
+      <div>
         <Container>
           <Table striped bordered hover responsive="m">
             <thead>
               <tr>
-                <th style={{ width: "150px" }}>PROFILE</th>
-                <td className="align-items-end"></td>
+                <th style={{ width: "25vw" }}>PROFILE</th>
+                <td className="align-items-end" style={{ width: "75vw" }}></td>
               </tr>
             </thead>
             <tbody>
@@ -112,14 +121,31 @@ class ProfileDisplay extends React.Component<
               </tr>
               <tr>
                 <th scope="row">Phone Number:</th>
-                <td>{this.state.profile.phone_number}</td>                
+                <td>{this.state.profile.phone_number}</td>
               </tr>
               <tr>
-                <th></th>
-                <td></td>
                 <td>
-                  
-             <ProfileUpdate
+                  {this.state.showCreateModal == true ? (
+                    <ProfileCreate
+                      sessionToken={this.props.sessionToken}
+                      toggleCreate={this.toggleCreate}
+                      showCreateModal={this.state.showCreateModal}
+                      fetchProfile={this.fetchProfile}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </td>
+                <td>
+                  <Button
+                    color="primary"
+                    align="right"
+                    onClick={this.toggleUpdate}
+                  >
+                    Update
+                  </Button>
+                  {this.state.showUpdateModal ? (
+                    <ProfileUpdate
                       first_name={this.state.profile.first_name}
                       last_name={this.state.profile.last_name}
                       email={this.state.profile.email}
@@ -129,22 +155,31 @@ class ProfileDisplay extends React.Component<
                       state={this.state.profile.state}
                       zipcode={this.state.profile.zipcode}
                       phone_number={this.state.profile.phone_number}
+                      toggleUpdate={this.toggleUpdate}
+                      sessionToken={this.props.sessionToken}
                       fetchProfile={this.fetchProfile}
-                      sessionToken={this.props.sessionToken}
-                    /> 
-</td>
-<td>
-                    <DeleteProfile
-                      sessionToken={this.props.sessionToken}
-                      first_name={this.state.profile.first_name}
-                      id={this.state.profile.id}
                     />
-          
+                  ) : (
+                    ""
+                  )}
                 </td>
               </tr>
             </tbody>
           </Table>
+          <Button style={{ color: "" }} onClick={this.toggleDelete}>
+            Delete
+          </Button>
         </Container>
+        {this.state.showDeleteModal ? (
+          <DeleteProfile
+            sessionToken={this.props.sessionToken}
+            first_name={this.state.profile.first_name}
+            id={this.state.profile.id}
+            toggleDelete={this.toggleDelete}
+          />
+        ) : (
+          ""
+        )}
       </div>
     );
   }

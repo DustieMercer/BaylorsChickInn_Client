@@ -3,8 +3,7 @@ import * as React from "react";
 import AddChick from "./AddChick";
 import IChick from "../interfaces/IChick";
 import DeleteChick from "./DeleteChick";
-import UpdateChick from './UpdateChick';
-
+import UpdateChick from "./UpdateChick";
 import { Card, Button, CardImg } from "react-bootstrap";
 
 export interface ChickAdminProps {
@@ -19,6 +18,9 @@ export interface ChickAdminState {
   chick_persona: string;
   photo: string;
   id: number;
+  showCreateModal: boolean;
+  showUpdateModal: boolean;
+  showDeleteModal: boolean;
 }
 
 class ChickAdmin extends React.Component<ChickAdminProps, ChickAdminState> {
@@ -32,12 +34,48 @@ class ChickAdmin extends React.Component<ChickAdminProps, ChickAdminState> {
       chick_persona: "",
       photo: "",
       id: NaN,
+      showCreateModal: false,
+      showUpdateModal: false,
+      showDeleteModal: false,
     };
   }
 
+  toggleCreate = () => {
+    this.setState({ showCreateModal: !this.state.showCreateModal });
+  };
+  setChickUpdate = (chick: IChick) => {
+    this.setState({
+      chick_name: chick.chick_name,
+      chick_type: chick.chick_type,
+      chick_production: chick.chick_production,
+      chick_persona: chick.chick_persona,
+      photo: chick.photo,
+      id: chick.id,
+    });
+    this.toggleUpdate();
+  };
+
+  setChickDelete = (chick: IChick) => {
+    this.setState({
+      chick_name: chick.chick_name,
+      chick_type: chick.chick_type,
+      chick_production: chick.chick_production,
+      chick_persona: chick.chick_persona,
+      photo: chick.photo,
+      id: chick.id,
+    });
+    this.toggleDelete();
+  };
+
+  toggleUpdate = () => {
+    this.setState({ showUpdateModal: !this.state.showUpdateModal });
+  };
+  toggleDelete = () => {
+    this.setState({ showDeleteModal: !this.state.showDeleteModal });
+  };
+
   componentDidMount = () => {
     this.fetchChicks();
-    console.log(this.props.sessionToken)
   };
   fetchChicks = () => {
     const token = this.props.sessionToken
@@ -47,22 +85,19 @@ class ChickAdmin extends React.Component<ChickAdminProps, ChickAdminState> {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
-        Authorization: token ? token : '',
+        Authorization: token ? token : "",
       }),
     })
       .then((response) => response.json())
       .then((json: []) => {
         this.setState({ chicks: json });
-        console.log(this.state.chicks);
       });
   };
 
   render() {
     return (
       <div>
-        <AddChick sessionToken={this.props.sessionToken} />
-
-        {this.state.chicks.map(
+       {this.state.chicks.map(
           (
             chick: {
               chick_name: string;
@@ -85,26 +120,69 @@ class ChickAdmin extends React.Component<ChickAdminProps, ChickAdminState> {
                     <strong>{chick.chick_production}</strong>
                   </Card.Text>
                   <Card.Text>{chick.chick_persona}</Card.Text>
-                  <UpdateChick
-                    sessionToken={this.props.sessionToken}
-                    fetchChicks={this.fetchChicks}
-                    chick_name={this.state.chick_name}
-                    chick_type={this.state.chick_type}
-                    chick_production={this.state.chick_production}
-                    chick_persona={this.state.chick_persona}
-                    photo={this.state.photo}
-                    id={this.state.id}
-                  />
-                  <DeleteChick
-                    sessionToken={this.props.sessionToken}
-                    fetchChicks={this.fetchChicks}
-                    id={chick.id}
-                    chick_name={chick.chick_name}
-                  />
+                  <Button
+                    style={{ justifyContent: "right", margin: "10px" }}
+                    color="primary"
+                    onClick={(e) => this.setChickUpdate(chick)}
+                  >
+                    Update Chick
+                  </Button>
+
+                  <Button
+                    color="danger"
+                    onClick={(event) => this.setChickDelete(chick)}
+                    style={{ margin: "10px" }}
+                  >
+                    Delete
+                  </Button>
                 </Card.Body>
-              </Card>        
+              </Card>
             );
           }
+        )}
+
+        {this.state.showUpdateModal == true ? (
+          <UpdateChick
+            sessionToken={this.props.sessionToken}
+            fetchChicks={this.fetchChicks}
+            chick_name={this.state.chick_name}
+            chick_type={this.state.chick_type}
+            chick_production={this.state.chick_production}
+            chick_persona={this.state.chick_persona}
+            photo={this.state.photo}
+            id={this.state.id}
+            toggleUpdate={this.toggleUpdate}
+          />
+        ) : (
+          ""
+        )}
+        {this.state.showDeleteModal == true ? (
+          <DeleteChick
+            sessionToken={this.props.sessionToken}
+            fetchChicks={this.fetchChicks}
+            id={this.state.id}
+            chick_name={this.state.chick_name}
+            toggleDelete={this.toggleDelete}
+          />
+        ) : (
+          ""
+        )}
+
+<Button
+          style={{ justifyContent: "right", margin: "10px" }}
+          color="primary"
+          onClick={this.toggleCreate}
+        >
+          Add Chick
+        </Button>
+        {this.state.showCreateModal == true ? (
+          <AddChick
+            sessionToken={this.props.sessionToken}
+            toggleCreate={this.toggleCreate}
+            showCreateModal={this.state.showCreateModal}
+          />
+        ) : (
+          ""
         )}
       </div>
     );

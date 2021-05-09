@@ -14,7 +14,9 @@ import IProfile from "../interfaces/IProfile";
 
 export interface ProfileCreateProps {
   sessionToken: string;
-  fetchProfile:Function;
+  toggleCreate:Function;
+  showCreateModal: boolean;
+fetchProfile: Function;
 }
 
 export interface ProfileCreateState {
@@ -26,7 +28,6 @@ export interface ProfileCreateState {
   state: string;
   zipcode: string;
   phone_number: string;
-  showModal: boolean;
 }
 
 class ProfileCreate extends Component<ProfileCreateProps, ProfileCreateState> {
@@ -41,13 +42,9 @@ class ProfileCreate extends Component<ProfileCreateProps, ProfileCreateState> {
       state: "",
       zipcode: "",
       phone_number: "",
-      showModal: false,
     };
   }
-  toggle = () => {
-    this.setState({ showModal: !this.state.showModal });
-    this.props.fetchProfile();
-  };
+
 
   handleSubmit = (event: any) => {
     event.preventDefault();
@@ -76,18 +73,15 @@ class ProfileCreate extends Component<ProfileCreateProps, ProfileCreateState> {
       .then((response) => response.json())
       .then((json: IProfile) => {
         console.log(json);
-        this.toggle();
+        this.props.toggleCreate();
       });
   };
 
   render() {
     return (
       <div>
-        <Button
-          color="danger"
-          onClick={this.toggle}
-        ></Button>
-        <Modal isOpen={false} >
+        
+        <Modal isOpen={this.props.showCreateModal} >
 
           <ModalHeader>Personal Profile</ModalHeader>
           <ModalBody>
@@ -183,7 +177,7 @@ class ProfileCreate extends Component<ProfileCreateProps, ProfileCreateState> {
           </ModalBody>
           <ModalFooter>
             <Button onClick={this.handleSubmit}>Submit</Button>
-            <Button onClick={this.toggle}>Cancel</Button>
+            <Button onClick={(event) => this.props.toggleCreate()}>Cancel</Button>
           </ModalFooter>
         </Modal>
       </div>

@@ -44,7 +44,7 @@ class NavBar extends Component<NavBarProps, NavBarState> {
     return (
       <div>
         <Navbar className="navbar">
-          <NavbarBrand href="/">
+          <NavbarBrand href="/home">
             <img src={logo} className="headerLogo" alt="ChickInnLogo" />
           </NavbarBrand>
           <Nav>
@@ -104,10 +104,12 @@ class NavBar extends Component<NavBarProps, NavBarState> {
         </Navbar>
 
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/home">
             <Home />
           </Route>
-          <Route exact path="/meetthechicks" component={ChickDisplay} />
+          <Route exact path="/meetthechicks">
+            <ChickDisplay sessionToken={this.props.sessionToken} role={this.props.role} />
+            </Route> 
           <Route exact path="/recipes" component={Recipes} />
           <Route exact path="/profile"> 
           <ProfileDisplay sessionToken={this.props.sessionToken} />

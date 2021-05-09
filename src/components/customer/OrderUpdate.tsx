@@ -3,110 +3,201 @@ import APIURL from "../../helpers/environment";
 import {
   Button,
   Modal,
-  Container,
-  Col,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   Row,
-} from "react-bootstrap";
+  Col,
+  Form,
+  Input,
+} from "reactstrap";
 import IOrder from "../interfaces/IOrder";
 
 export interface OrderUpdateProps {
   sessionToken: string;
-  id: number;
+  item_description: string,
+  unit_type: string,
+  quantity_ordered: number,
+  unit_cost: number,
+  order_total: number,
+  status: string,
+  id: number,
+  toggleUpdate: Function;
+  fetchOrders: Function;
 }
 
 export interface OrderUpdateState {
-showModal: boolean;
-order: {
-item_description: string;
-unit_type: string;
-quantity_ordered: number;
-unit_cost: number;
-order_total: number;
-status: string;}
+  item_description: string;
+  unit_type: string;
+  quantity_ordered: number;
+  unit_cost: number;
+  order_total: number;
+  status: string;
 }
 
 class OrderUpdate extends Component<OrderUpdateProps, OrderUpdateState> {
   constructor(props: OrderUpdateProps) {
     super(props);
     this.state = {
-      showModal: false,
-      order: {
-    item_description: "",
-    unit_type: "",
-    quantity_ordered: NaN,
-    unit_cost: NaN,
-    order_total: NaN,
-    status: "",
-      },
+      item_description: this.props.item_description,
+      unit_type: "",
+      quantity_ordered: NaN,
+      unit_cost: NaN,
+      order_total: NaN,
+      status: "",
     };
   }
-  toggle = () => {
-    this.setState({ showModal: !this.state.showModal });
-  };
 
   handleSubmit = (event: any) => {
     event.preventDefault();
-    let token = this.props.sessionToken ? this.props.sessionToken : localStorage.getItem('sessionToken')
+    let token = this.props.sessionToken
+      ? this.props.sessionToken
+      : localStorage.getItem("sessionToken");
     fetch(`${APIURL}/order/${this.props.id}`, {
       method: "PUT",
       body: JSON.stringify({
-            item_description: this.state.order.item_description,
-            unit_type: this.state.order.unit_type,
-            quantity_ordered: this.state.order.quantity_ordered,
-            unit_cost: this.state.order.unit_cost,
-            order_total: this.state.order.order_total,
-            status: this.state.order.status
+        item_description: this.state.item_description,
+        unit_type: this.state.unit_type,
+        quantity_ordered: this.state.quantity_ordered,
+        unit_cost: this.state.unit_cost,
+        order_total: this.state.order_total,
+        status: this.state.status,
       }),
       headers: new Headers({
         "Content-Type": "application/json",
-        Authorization: token ? token : '',
+        Authorization: token ? token : "",
       }),
     })
       .then((response) => response.json())
       .then((json: IOrder) => {
         console.log(json);
-        this.toggle();
+        this.props.toggleUpdate();
       });
   };
 
   render() {
     return (
       <div>
-
-<Modal aria-labelledby="contained-modal-title-vcenter">
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Place Order
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body className="show-grid">
-        <Container>
-          <Row>
-            <Col xs={12} md={8}>
-              .col-xs-12 .col-md-8
-            </Col>
-            <Col xs={6} md={4}>
-              .col-xs-6 .col-md-4
-            </Col>
-          </Row>
-
-          <Row>
-            <Col xs={6} md={4}>
-              .col-xs-6 .col-md-4
-            </Col>
-            <Col xs={6} md={4}>
-              .col-xs-6 .col-md-4
-            </Col>
-            <Col xs={6} md={4}>
-              .col-xs-6 .col-md-4
-            </Col>
-          </Row>
-        </Container>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={this.toggle}>Close</Button>
-      </Modal.Footer>
-    </Modal>
+        <Modal isOpen={true}>
+          <ModalHeader>Update Order</ModalHeader>
+          <ModalBody>
+            <Form>
+              <Row>
+                <Col>
+                  <Input
+                    placeholder="Item Description"
+                    type="select"
+                    name="select"
+                    
+                  ><option>Item Select</option>
+                    <option>Jumbo Eggs</option>
+                    <option>Large Eggs</option>
+                    <option>Medium Eggs</option>
+                    value={this.state.item_description}
+                    onChange=
+                    {(event: any) =>
+                      this.setState({ item_description: event.target.value })
+                    }
+                  </Input>
+                </Col>
+              </Row>
+              <br />
+              <Row>
+                <Col>
+                  <Input type="select" name="select">
+                  <option>Unit Type</option>
+                    <option>Dozen</option>
+                    <option>1/2 Dozen</option>
+                    value={this.state.unit_type}
+                    onChange=
+                    {(event: any) =>
+                      this.setState({ unit_type: event.target.value })
+                    }
+                  </Input>
+                </Col>
+              </Row>
+              <br />
+              <Row>
+                <Col>
+                  <Input
+                    placeholder="Qty"
+                    type="select"
+                    name="select"
+                    >
+                      <option>Quantity</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    value={this.state.quantity_ordered}
+                    onChange=
+                    {(event: any) =>
+                      this.setState({ quantity_ordered: event.target.value })
+                    }
+                  </Input>
+                </Col>
+              </Row>
+              <br />
+              <Row>
+                <Col>
+                  <Input
+                    placeholder="Price EA"
+                    type="text"
+                    value={this.state.unit_cost}
+                    onChange={(event: any) =>
+                      this.setState({ unit_cost: event.target.value })
+                    }
+                    required
+                  />
+                </Col>
+              </Row>
+              <br />
+              <Row>
+                <Col>
+                  <Input
+                    placeholder="Total"
+                    type="text"
+                    value={this.state.order_total}
+                    onChange={(event: any) =>
+                      this.setState({ order_total: event.target.value })
+                    }
+                    required
+                  />
+                </Col>
+              </Row>
+              <br />
+              <Row>
+                <Col>
+                  <Input
+                    placeholder="Status"
+                    type="select"
+                    name="select"
+                    >
+                      <option>Status</option>
+                    <option>New</option>
+                    <option>In Progress</option>
+                    <option>Complete</option>
+                    <option>Cancelled</option>
+                    value={this.state.status}
+                    onChange=
+                    {(event: any) =>
+                      this.setState({ status: event.target.value })
+                    }</Input>
+                </Col>
+              </Row>
+            </Form>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.handleSubmit}>
+              Save
+            </Button>{" "}
+            <Button
+              color="secondary"
+              onClick={(event) => this.props.toggleUpdate()}
+            >
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
       </div>
     );
   }

@@ -16,6 +16,8 @@ import {
 export interface DeleteOrderProps {
   sessionToken: string;
   id: number;
+  fetchOrders: Function;
+  toggleDelete: Function;
 }
 
 export interface DeleteOrderState {
@@ -50,9 +52,7 @@ class DeleteOrder extends React.Component<DeleteOrderProps, DeleteOrderState> {
   render() {
     return (
       <div>
-        <Button color="danger" onClick={this.toggle}>
-          Delete
-        </Button>
+        
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Are you sure you want to delete your order?</ModalHeader>
           <ModalFooter>

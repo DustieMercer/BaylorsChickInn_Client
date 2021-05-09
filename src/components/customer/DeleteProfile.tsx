@@ -17,21 +17,22 @@ export interface DeleteProfileProps {
   sessionToken: string;
   id: number;
   first_name: string;
+  toggleDelete: Function;
 }
 
 export interface DeleteProfileState {
-  modal: boolean;
+
 }
 
 class DeleteProfile extends React.Component<DeleteProfileProps, DeleteProfileState> {
   constructor(props: DeleteProfileProps) {
     super(props);
     this.state = {
-      modal: false,
+
     };
   }
 
-  toggle = () => this.setState({ modal: !this.state.modal });
+
 
   handleClick = (event: any) => {
     event.preventDefault();
@@ -51,16 +52,14 @@ class DeleteProfile extends React.Component<DeleteProfileProps, DeleteProfileSta
   render() {
     return (
       <div>
-        <Button color="danger" onClick={this.toggle}>
-          Delete
-        </Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Are you sure you want to delete <strong>{this.props.first_name}</strong>?</ModalHeader>
+        
+        <Modal isOpen={true} toggle={this.props.toggleDelete()}>
+          <ModalHeader toggle={this.props.toggleDelete()}>Are you sure you want to delete <strong>{this.props.first_name}</strong>?</ModalHeader>
           <ModalFooter>
             <Button color="primary" onClick={this.handleClick}>
               Yes
             </Button>{" "}
-            <Button color="secondary" onClick={this.toggle}>
+            <Button color="danger" onClick={(event) => this.props.toggleDelete()}>
               Cancel
             </Button>
           </ModalFooter>

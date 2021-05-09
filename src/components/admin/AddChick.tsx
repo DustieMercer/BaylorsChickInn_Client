@@ -16,10 +16,11 @@ import IChick from "../interfaces/IChick";
 
 export interface AddChickProps {
   sessionToken: string;
+  toggleCreate: Function;
+  showCreateModal:boolean;
 }
 
 export interface AddChickState {
-  modal: boolean;
   loading: boolean;
   image: string;
   chick_name: string;
@@ -33,7 +34,6 @@ class AddChick extends React.Component<AddChickProps, AddChickState> {
   constructor(props: AddChickProps) {
     super(props);
     this.state = {
-      modal: false,
       image: "",
       loading: false,
       chick_name: "",
@@ -43,7 +43,6 @@ class AddChick extends React.Component<AddChickProps, AddChickState> {
       photo: "",
     };
   }
-  toggle = () => this.setState({ modal: !this.state.modal });
 
   uploadImage = async (e: any) => {
     e.preventDefault();
@@ -69,6 +68,7 @@ class AddChick extends React.Component<AddChickProps, AddChickState> {
     const token = this.props.sessionToken
       ? this.props.sessionToken
       : localStorage.getItem("sessionToken");
+    debugger;
     fetch(`${APIURL}/chick/hatched`, {
       method: "POST",
       body: JSON.stringify({
@@ -89,23 +89,16 @@ class AddChick extends React.Component<AddChickProps, AddChickState> {
       .then((json: IChick) => {
         let chick = json;
         console.log(chick);
-        this.toggle();
+        this.props.toggleCreate();
       });
   };
 
   render() {
     return (
       <div>
-       <Row >
-       <Button 
-       style={{ justifyContent: "right", margin:"10px" }} 
-       color="primary" 
-       onClick={this.toggle}>
-          Add Chick
-        </Button>
-        </Row>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Add New Chick</ModalHeader>
+        <Row></Row>
+        <Modal isOpen={true}>
+          <ModalHeader>Add New Chick</ModalHeader>
           <ModalBody>
             <Form>
               <Row>
@@ -188,7 +181,10 @@ class AddChick extends React.Component<AddChickProps, AddChickState> {
             <Button color="primary" onClick={this.handleClick}>
               Save
             </Button>{" "}
-            <Button color="secondary" onClick={this.toggle}>
+            <Button
+              color="secondary"
+              onClick={(event) => this.props.toggleCreate()}
+            >
               Cancel
             </Button>
           </ModalFooter>

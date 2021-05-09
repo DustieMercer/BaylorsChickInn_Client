@@ -23,8 +23,9 @@ export interface ProfileUpdateFetchProps {
   state: string;
   zipcode: string;
   phone_number: string;
-  fetchProfile: Function;
   sessionToken: string;
+  toggleUpdate: Function;
+  fetchProfile: Function;
 }
 
 export interface ProfileUpdateFetchState {
@@ -37,7 +38,6 @@ export interface ProfileUpdateFetchState {
   state: string;
   zipcode: string;
   phone_number: string;
-  showModal: boolean;
 }
 
 class ProfileUpdate extends React.Component<
@@ -56,13 +56,9 @@ class ProfileUpdate extends React.Component<
       state: this.props.state,
       zipcode: this.props.zipcode,
       phone_number: this.props.phone_number,
-      showModal: false,
+
     };
   }
-
-  toggle = () => {
-    this.setState({ showModal: !this.state.showModal });
-  };
 
   updateProfile = (event: any) => {
     event.preventDefault();
@@ -90,7 +86,7 @@ class ProfileUpdate extends React.Component<
       .then((res) => res.json())
       .then((json: IProfile) => {
         console.log(json);
-        this.toggle();
+        this.props.toggleUpdate();
         this.props.fetchProfile();
       });
   };
@@ -98,10 +94,8 @@ class ProfileUpdate extends React.Component<
   render() {
     return (
       <div>
-        <Button color="primary" onClick={this.toggle}>
-          Update
-        </Button>
-        <Modal isOpen={this.state.showModal}>
+        
+        <Modal isOpen={true}>
           <ModalHeader>Personal Profile</ModalHeader>
           <ModalBody>
             <Form>
@@ -198,7 +192,7 @@ class ProfileUpdate extends React.Component<
             <Button color="primary" onClick={this.updateProfile}>
               Submit
             </Button>
-            <Button onClick={this.toggle}>Cancel</Button>
+            <Button onClick={(event) => this.props.toggleUpdate()}>Cancel</Button>
           </ModalFooter>
         </Modal>
       </div>

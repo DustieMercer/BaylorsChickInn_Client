@@ -18,6 +18,7 @@ export interface DeleteChickProps {
   fetchChicks:Function;
   id:number;
   chick_name: string;
+  toggleDelete: Function;
 }
 
 export interface DeleteChickState {
@@ -33,7 +34,7 @@ class DeleteChick extends React.Component<DeleteChickProps, DeleteChickState> {
     };
   }
 
-  toggle = () => this.setState({ modal: !this.state.modal });
+
 
   handleClick = (event: any) => {
     event.preventDefault();
@@ -54,17 +55,15 @@ class DeleteChick extends React.Component<DeleteChickProps, DeleteChickState> {
     return (
       <div>
         <Row>
-        <Button color="danger" onClick={this.toggle} style={{margin:'10px'}}>
-          Delete
-        </Button>
+        
         </Row>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Are you sure you want to delete <strong>{this.props.chick_name}</strong>?</ModalHeader>
+        <Modal isOpen={true} >
+          <ModalHeader >Are you sure you want to delete <strong>{this.props.chick_name}</strong>?</ModalHeader>
           <ModalFooter>
             <Button color="primary" onClick={this.handleClick}>
               Yes
             </Button>
-            <Button color="secondary" onClick={this.toggle}>
+            <Button color="secondary" onClick={(event) =>this.props.toggleDelete()}>
               Cancel
             </Button>
           </ModalFooter>

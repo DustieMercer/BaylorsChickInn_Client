@@ -1,9 +1,11 @@
 import APIURL from '../../../helpers/environment';
 import * as React from "react";
 import { Card, CardColumns  } from "react-bootstrap";
+import AddChick from '../../admin/AddChick';
 
 export interface ChickDisplayProps {
   sessionToken: string;
+  role: string;
 }
 
 export interface ChickDisplayState {
@@ -70,6 +72,7 @@ class ChickDisplay extends React.Component<
             index
           ) => {
             return (
+             
               <CardColumns>
               <Card style={{ width: "18rem" }}>
                 <Card.Img variant="top" src={chick.photo} />
@@ -82,6 +85,7 @@ class ChickDisplay extends React.Component<
                   </Card.Text>
                   <Card.Text>{chick.chick_persona}</Card.Text>
                 </Card.Body>
+                
               </Card>
               </CardColumns>
             );

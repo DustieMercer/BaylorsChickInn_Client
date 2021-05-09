@@ -1,9 +1,10 @@
 import APIURL from "../../helpers/environment";
 import * as React from "react";
-import { Table } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import OrderUpdate from "./OrderUpdate";
 import OrderCreate from "./OrderCreate";
 import DeleteOrder from "./DeleteOrder";
+import IOrder from "../interfaces/IOrder";
 
 export interface OrderDisplayProps {
   sessionToken: string;
@@ -18,6 +19,9 @@ export interface OrderDisplayState {
   order_total: number;
   status: string;
   id: number;
+  showCreateModal: boolean;
+  showUpdateModal: boolean;
+  showDeleteModal: boolean;
 }
 
 class OrderDisplay extends React.Component<
@@ -29,14 +33,53 @@ class OrderDisplay extends React.Component<
     this.state = {
       orders: [],
       item_description: "",
-      unit_type: ",",
+      unit_type: "",
       quantity_ordered: NaN,
       unit_cost: NaN,
       order_total: NaN,
       status: "",
       id: NaN,
+      showCreateModal: false,
+      showUpdateModal: false,
+      showDeleteModal: false,
     };
   }
+
+  toggleCreate = () => {
+    this.setState({ showCreateModal: !this.state.showCreateModal });
+  };
+  setOrderUpdate = (order: IOrder) => {
+    this.setState({
+      item_description: order.item_description,
+      unit_type: order.unit_type,
+      quantity_ordered: order.quantity_ordered,
+      unit_cost: order.unit_cost,
+      order_total: order.order_total,
+      status: order.status,
+      id: order.id,
+    });
+    this.toggleUpdate();
+  };
+
+  setOrderDelete = (order: IOrder) => {
+    this.setState({
+      item_description: order.item_description,
+      unit_type: order.unit_type,
+      quantity_ordered: order.quantity_ordered,
+      unit_cost: order.unit_cost,
+      order_total: order.order_total,
+      status: order.status,
+      id: order.id,
+    });
+    this.toggleDelete();
+  };
+
+  toggleUpdate = () => {
+    this.setState({ showUpdateModal: !this.state.showUpdateModal });
+  };
+  toggleDelete = () => {
+    this.setState({ showDeleteModal: !this.state.showDeleteModal });
+  };
 
   componentDidMount = () => {
     this.fetchOrders();
@@ -54,8 +97,8 @@ class OrderDisplay extends React.Component<
     })
       .then((response) => response.json())
       .then((json: []) => {
-        this.setState({ orders: json });
         console.log(this.state.orders);
+        // this.setState({ orders: json });
       });
   };
 
@@ -71,11 +114,12 @@ class OrderDisplay extends React.Component<
               unit_cost: number;
               order_total: number;
               status: string;
+              id: number;
             },
             index
           ) => {
             return (
-              <Table striped bordered hover variant="dark">
+              <Table striped bordered hover>
                 <thead>
                   <tr>
                     <th>#</th>
@@ -91,22 +135,28 @@ class OrderDisplay extends React.Component<
                 </thead>
                 <tbody>
                   <tr>
-                    <td>1</td>
-                    <td>order.item_description</td>
-                    <td>order.unit_type</td>
-                    <td>order.quantity_ordered</td>
-                    <td>order.unit_cost</td>
-                    <td>order.order_total</td>
-                    <td>order.status</td>
+                    <td>#</td>
+                    <td>{order.item_description}</td>
+                    <td>{order.unit_type}</td>
+                    <td>{order.quantity_ordered}</td>
+                    <td>{order.unit_cost}</td>
+                    <td>{order.order_total}</td>
+                    <td>{order.status}</td>
                     <td>
-                      <OrderUpdate sessionToken={this.props.sessionToken} 
-                      id={this.state.id} />
+                      <Button
+                        color="danger"
+                        onClick={(event) => this.setOrderUpdate(order)}
+                      >
+                        Update
+                      </Button>
                     </td>
                     <td>
-                      <DeleteOrder
-                        sessionToken={this.props.sessionToken}
-                        id={this.state.id}
-                      />
+                      <Button
+                        color="danger"
+                        onClick={(event) => this.setOrderDelete(order)}
+                      >
+                        Delete
+                      </Button>
                     </td>
                   </tr>
                 </tbody>
@@ -114,6 +164,26 @@ class OrderDisplay extends React.Component<
             );
           }
         )}
+
+        <OrderUpdate
+          sessionToken={this.props.sessionToken}
+          item_description={this.state.item_description}
+          unit_type={this.state.unit_type}
+          quantity_ordered={this.state.quantity_ordered}
+          unit_cost={this.state.unit_cost}
+          order_total={this.state.order_total}
+          status={this.state.status}
+          id={this.state.id}
+          toggleUpdate={this.toggleUpdate}
+          fetchOrders={this.fetchOrders}
+        />
+        <DeleteOrder
+          sessionToken={this.props.sessionToken}
+          id={this.state.id}
+          fetchOrders={this.fetchOrders}
+          toggleDelete={this.toggleDelete}
+        />
+        <OrderCreate sessionToken={this.props.sessionToken} toggleCreate={this.toggleCreate} />
       </div>
     );
   }

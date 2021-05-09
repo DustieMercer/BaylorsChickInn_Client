@@ -22,10 +22,10 @@ export interface UpdateChickProps {
   chick_persona: string;
   photo: string;
   id: number;
+  toggleUpdate: Function;
 }
 
 export interface UpdateChickState {
-  modal: boolean;
   loading: boolean;
   image: string;
   chick_name: string;
@@ -40,7 +40,6 @@ class UpdateChick extends React.Component<UpdateChickProps, UpdateChickState> {
   constructor(props: UpdateChickProps) {
     super(props);
     this.state = {
-      modal: false,
       image: "",
       loading: false,
       chick_name: this.props.chick_name,
@@ -51,7 +50,6 @@ class UpdateChick extends React.Component<UpdateChickProps, UpdateChickState> {
       id: this.props.id,
     };
   }
-  toggle = () => this.setState({ modal: !this.state.modal });
 
   uploadImage = async (e: any) => {
     e.preventDefault();
@@ -95,23 +93,17 @@ class UpdateChick extends React.Component<UpdateChickProps, UpdateChickState> {
       .then((json: IChick) => {
         let chick = json;
         console.log(chick);
-        this.toggle();
+        this.props.fetchChicks();
+        this.props.toggleUpdate();
       });
   };
 
   render() {
     return (
       <div>
-       <Row >
-       <Button 
-       style={{ justifyContent: "right", margin:"10px" }} 
-       color="primary" 
-       onClick={this.toggle}>
-          Update Chick
-        </Button>
-        </Row>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Update {this.props.chick_name}</ModalHeader>
+    
+        <Modal isOpen={true}>
+          <ModalHeader >Update {this.props.chick_name}</ModalHeader>
           <ModalBody>
             <Form>
               <Row>
@@ -194,7 +186,7 @@ class UpdateChick extends React.Component<UpdateChickProps, UpdateChickState> {
             <Button color="primary" onClick={this.handleClick}>
               Save
             </Button>{" "}
-            <Button color="secondary" onClick={this.toggle}>
+            <Button color="secondary" onClick={(event) => this.props.toggleUpdate()}>
               Cancel
             </Button>
           </ModalFooter>
