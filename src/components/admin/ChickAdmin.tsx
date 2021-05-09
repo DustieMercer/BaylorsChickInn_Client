@@ -18,6 +18,7 @@ export interface ChickAdminState {
   chick_persona: string;
   photo: string;
   id: number;
+  
   showCreateModal: boolean;
   showUpdateModal: boolean;
   showDeleteModal: boolean;

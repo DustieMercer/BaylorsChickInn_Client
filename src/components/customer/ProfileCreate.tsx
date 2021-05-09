@@ -1,7 +1,6 @@
 import { Component } from "react";
 import APIURL from "../../helpers/environment";
 import {
-  Row,
   Form,
   Input,
   Button,
@@ -14,9 +13,9 @@ import IProfile from "../interfaces/IProfile";
 
 export interface ProfileCreateProps {
   sessionToken: string;
-  toggleCreate:Function;
+  toggleCreate: Function;
   showCreateModal: boolean;
-fetchProfile: Function;
+  fetchProfile: Function;
 }
 
 export interface ProfileCreateState {
@@ -44,7 +43,6 @@ class ProfileCreate extends Component<ProfileCreateProps, ProfileCreateState> {
       phone_number: "",
     };
   }
-
 
   handleSubmit = (event: any) => {
     event.preventDefault();
@@ -74,15 +72,14 @@ class ProfileCreate extends Component<ProfileCreateProps, ProfileCreateState> {
       .then((json: IProfile) => {
         console.log(json);
         this.props.toggleCreate();
+        this.props.fetchProfile();
       });
   };
 
   render() {
     return (
       <div>
-        
-        <Modal isOpen={this.props.showCreateModal} >
-
+        <Modal isOpen={true}>
           <ModalHeader>Personal Profile</ModalHeader>
           <ModalBody>
             <Form>
@@ -177,7 +174,9 @@ class ProfileCreate extends Component<ProfileCreateProps, ProfileCreateState> {
           </ModalBody>
           <ModalFooter>
             <Button onClick={this.handleSubmit}>Submit</Button>
-            <Button onClick={(event) => this.props.toggleCreate()}>Cancel</Button>
+            <Button onClick={(event) => this.props.toggleCreate()}>
+              Cancel
+            </Button>
           </ModalFooter>
         </Modal>
       </div>

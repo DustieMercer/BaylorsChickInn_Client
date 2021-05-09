@@ -40,11 +40,11 @@ class OrderUpdate extends Component<OrderUpdateProps, OrderUpdateState> {
     super(props);
     this.state = {
       item_description: this.props.item_description,
-      unit_type: "",
-      quantity_ordered: NaN,
-      unit_cost: NaN,
-      order_total: NaN,
-      status: "",
+      unit_type: this.props.unit_type,
+      quantity_ordered: this.props.quantity_ordered,
+      unit_cost: this.props.unit_cost,
+      order_total: this.props.order_total,
+      status: this.props.status,
     };
   }
 
@@ -70,7 +70,7 @@ class OrderUpdate extends Component<OrderUpdateProps, OrderUpdateState> {
     })
       .then((response) => response.json())
       .then((json: IOrder) => {
-        console.log(json);
+        this.props.fetchOrders();
         this.props.toggleUpdate();
       });
   };

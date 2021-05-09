@@ -16,6 +16,7 @@ import IOrder from "../interfaces/IOrder";
 export interface OrderCreateProps {
   sessionToken: string;
   toggleCreate:Function;
+  fetchOrders:Function;
 }
 
 export interface OrderCreateState {
@@ -66,6 +67,7 @@ class OrderCreate extends Component<OrderCreateProps, OrderCreateState> {
       .then((response) => response.json())
       .then((json: IOrder) => {
         console.log(json);
+        this.props.fetchOrders();
         this.props.toggleCreate();
       });
   };
@@ -185,10 +187,7 @@ class OrderCreate extends Component<OrderCreateProps, OrderCreateState> {
             <Button color="primary" onClick={this.handleSubmit}>
               Submit
             </Button>{" "}
-            <Button
-              color="secondary"
-              onClick={(event) => this.props.toggleCreate()}
-            >
+            <Button onClick={(event) => this.props.toggleCreate()}>
               Cancel
             </Button>
           </ModalFooter>

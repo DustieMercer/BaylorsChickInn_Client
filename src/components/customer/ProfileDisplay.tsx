@@ -45,7 +45,6 @@ class ProfileDisplay extends React.Component<
     };
   }
   toggleCreate = () => {
-    console.log("hello");
     this.setState({ showCreateModal: !this.state.showCreateModal });
   };
   toggleUpdate = () => {

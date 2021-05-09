@@ -6,4 +6,6 @@ export default interface IOrder {
     order_total: number;
     status: string;
     id: number;
+    createdAt?: any;
+    updatedAt?: any;
 }

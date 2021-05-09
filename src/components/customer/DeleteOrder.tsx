@@ -21,18 +21,17 @@ export interface DeleteOrderProps {
 }
 
 export interface DeleteOrderState {
-  modal: boolean;
+ 
 }
 
 class DeleteOrder extends React.Component<DeleteOrderProps, DeleteOrderState> {
   constructor(props: DeleteOrderProps) {
     super(props);
     this.state = {
-      modal: false,
+    
     };
   }
 
-  toggle = () => this.setState({ modal: !this.state.modal });
 
   handleClick = (event: any) => {
     event.preventDefault();
@@ -46,20 +45,20 @@ class DeleteOrder extends React.Component<DeleteOrderProps, DeleteOrderState> {
         Authorization: token ? token : "",
       }),
     })
-      .then((res) => console.log(res))
+    .then(() => this.props.fetchOrders())
   };
 
   render() {
     return (
       <div>
         
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Are you sure you want to delete your order?</ModalHeader>
+        <Modal isOpen={true} >
+          <ModalHeader>Are you sure you want to cancel your order?</ModalHeader>
           <ModalFooter>
             <Button color="primary" onClick={this.handleClick}>
               Yes
             </Button>{" "}
-            <Button color="secondary" onClick={this.toggle}>
+            <Button color="secondary" onClick={(event) =>this.props.toggleDelete()}>
               Cancel
             </Button>
           </ModalFooter>

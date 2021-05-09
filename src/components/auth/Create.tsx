@@ -1,6 +1,16 @@
 import { Component } from "react";
 import APIURL from "../../helpers/environment";
-import { Card, Form, Input, Button, Row, Col, CardImg } from "reactstrap";
+import {
+  Card,
+  Label,
+  FormGroup,
+  Form,
+  Input,
+  Button,
+  Row,
+  Col,
+  CardImg,
+} from "reactstrap";
 import chick from "../assets/chickenCardImg.jpg";
 import IUser from "../interfaces/IUser";
 import IAuth from "../interfaces/IAuth";
@@ -28,6 +38,7 @@ class Create extends Component<CreateProps, IUser> {
         user: {
           email: this.state.email,
           password: this.state.password,
+          role: "default",
         },
       }),
       headers: new Headers({
@@ -48,45 +59,41 @@ class Create extends Component<CreateProps, IUser> {
   render() {
     return (
       <main>
-        <Card>
-          <CardImg src={chick}></CardImg>
-          <br />
-          <Form>
-            <Row>
-              <Col>
-                <Input
-                  placeholder="Email"
-                  type="email"
-                  value={this.state.email}
-                  onChange={(event) =>
-                    this.setState({ email: event.target.value })
-                  }
-                  autoComplete="email"
-                  required
-                />
-              </Col>
-            </Row>
+               
+          <Form onSubmit={this.handleClick}>
+        <FormGroup>
+          <Label htmlFor="email">Email</Label>
+          <Input
+            onChange={(event) =>
+              this.setState({ email: event.target.value })
+            }
+            type="email"
+            name="email"
+            value={this.state.email}
+            autoComplete="email"
+            required
+          />
+        </FormGroup>
             <br />
-            <Row>
-              <Col>
-                <Input
-                  placeholder="Password"
-                  type="password"
-                  value={this.state.password}
-                  onChange={(event) =>
-                    this.setState({ password: event.target.value })
-                  }
-                  autoComplete="password"
-                  required
-                />
-              </Col>
-            </Row>
+            <FormGroup>
+          <Label htmlFor="password">Password</Label>
+          <Input
+             onChange={(event) =>
+              this.setState({ password: event.target.value })
+            }
+            minLength={5}
+            name="password"
+            value={this.state.password}
+            type="password"
+            autoComplete="password"
+            required
+          />
+        </FormGroup>
             <br />
             <Button type="submit" onClick={(event) => this.handleClick(event)}>
               Create Account
             </Button>
           </Form>
-        </Card>
       </main>
     );
   }
